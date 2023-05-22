@@ -71,6 +71,10 @@ dependencies:
   flutter_sound_lite: ^8.5.0
   # 文件路径
   path_provider: ^2.0.4
+  # 气泡提示
+  just_the_tooltip: ^0.0.11+2
+  # socket api
+  web_socket_channel: ^2.3.0
 
 dev_dependencies:
   flutter_test:

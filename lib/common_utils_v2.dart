@@ -51,12 +51,13 @@ export 'package:image_picker/image_picker.dart';
 export 'package:qr_flutter/qr_flutter.dart';
 export 'package:url_launcher/url_launcher.dart';
 export 'package:flutter_xupdate/flutter_xupdate.dart';
+export 'package:web_socket_channel/web_socket_channel.dart';
+export 'package:web_socket_channel/status.dart';
 
 
 
 /// 模型
 export 'src/mode/common_bottom_sheet_result_model.dart';
-
 
 
 /// 通用 widget
