@@ -21,10 +21,10 @@
 + 通过 git远程方式导入
 
   ```
-  common_utils:
+  common_utils_v2:
     git:
       url: https://github.com/ilovesshan/flutter-common-utils-v2.git
-        ref: master
+      ref: master
   ```
 
   
