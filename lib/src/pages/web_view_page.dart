@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:io';
+
 import 'package:common_utils_v2/common_utils_v2.dart';
 
 /// 基于webview_flutter插件
@@ -22,7 +26,7 @@ class _WebviewPageState extends State<WebviewPage> {
     _controller.future.then((controller) {
       _webViewController = controller;
       Map<String, String> header = {
-        "Authorization": "Bearer " + TextUtils.isEmptyWith("", ""),
+        "Authorization": "Bearer " + TextUtil.isEmptyWith("", ""),
       };
       _webViewController.loadUrl(path, headers: header);
     });

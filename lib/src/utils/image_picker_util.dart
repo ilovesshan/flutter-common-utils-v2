@@ -10,20 +10,20 @@ class ImagePickerUtil {
       if (image != null && image.path.isNotEmpty) {
         path = image.path;
       } else {
-        Fluttertoast.showToast(msg: "取消");
+        ToastUtil.show("取消");
       }
     } catch (e) {
       if (e is PlatformException) {
         if (e.code == "camera_access_denied") {
           /// 相机权限被拒绝了
-          PermissionUtils.requestCameraPermission();
+          PermissionUtil.requestCameraPermission();
         } else {
           printLog(StackTrace.current, e.toString());
-          Fluttertoast.showToast(msg: "取消");
+          ToastUtil.show("取消");
         }
       } else {
         printLog(StackTrace.current, e.toString());
-        Fluttertoast.showToast(msg: "取消");
+        ToastUtil.show("取消");
       }
     }
     return path;
@@ -38,11 +38,11 @@ class ImagePickerUtil {
       if (list != null && list.isNotEmpty) {
         list.forEach((item) => pathList.add(item.path));
       } else {
-        Fluttertoast.showToast(msg: "取消");
+        ToastUtil.show("取消");
       }
     } catch (e) {
       printLog(StackTrace.current, e.toString());
-      Fluttertoast.showToast(msg: "取消");
+      ToastUtil.show("取消");
     }
     return pathList;
   }

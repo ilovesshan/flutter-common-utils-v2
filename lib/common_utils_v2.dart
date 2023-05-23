@@ -1,13 +1,7 @@
 library common_utils_v2;
 
-/// flutter framework
-export 'package:dio/dio.dart';
-export 'dart:io';
-export 'dart:async';
-export 'dart:typed_data';
-
-
 /// 三方插件 通用包
+export 'package:dio/dio.dart';
 export 'package:flutter_xupdate/flutter_xupdate.dart';
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:flutter/foundation.dart' show kIsWeb;
@@ -17,10 +11,8 @@ export 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform
 export 'package:path_provider/path_provider.dart';
 export 'package:permission_handler/permission_handler.dart';
 export 'package:pointycastle/asymmetric/api.dart';
-export 'package:barcode_scan2/model/scan_options.dart';
-export 'package:barcode_scan2/platform_wrapper.dart';
+export 'package:barcode_scan2/barcode_scan2.dart';
 export 'package:connectivity/connectivity.dart';
-export 'package:flutter/material.dart';
 export 'package:flutter_scankit/scan_kit_widget.dart';
 export 'package:flutter/foundation.dart';
 export 'package:flutter/rendering.dart';
@@ -37,7 +29,6 @@ export 'package:expressions/expressions.dart';
 export 'package:flutter_swiper_plus/flutter_swiper_plus.dart';
 export 'package:badges/badges.dart';
 export 'package:flutter_scankit/scan_kit_widget.dart';
-export 'package:flutter_scankit/scan_kit_widget.dart';
 export 'package:flutter_localizations/flutter_localizations.dart';
 export 'package:uuid/uuid.dart';
 export 'package:cached_network_image/cached_network_image.dart';
@@ -53,15 +44,19 @@ export 'package:url_launcher/url_launcher.dart';
 export 'package:flutter_xupdate/flutter_xupdate.dart';
 export 'package:web_socket_channel/web_socket_channel.dart';
 export 'package:web_socket_channel/status.dart';
+export 'package:just_the_tooltip/just_the_tooltip.dart';
 
 
 
 /// 模型
-export 'src/mode/common_bottom_sheet_result_model.dart';
+export 'src/mode/common_bottom_sheet_text_model.dart';
+export 'src/mode/common_bottom_sheet_icon_model.dart';
 
+
+/// 常量
+export 'src/constants/common_bottom_sheet_constants.dart';
 
 /// 通用 widget
-export 'src/pages/image_preview_page.dart';
 export 'src/widgets/common_bottom_bar.dart';
 export 'src/widgets/common_bottom_selector.dart';
 export 'src/widgets/refresh_widget.dart';
@@ -71,10 +66,10 @@ export 'src/widgets/nav_bar.dart';
 
 
 /// 公共页面
+export 'src/pages/image_preview_page.dart';
 export 'src/pages/scankit_page.dart';
 export 'src/pages/web_view_page.dart';
 export 'src/pages/web_view_plugin_page.dart';
-export 'src/pages/image_preview_page.dart';
 
 
 /// 解决export文件冲突

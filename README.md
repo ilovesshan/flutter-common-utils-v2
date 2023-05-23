@@ -12,8 +12,8 @@
 + 将项目clone到本地进入导入
 
   ```
-  common_utils-v2:
-    path: ./common_utils-v2
+  common_utils_v2:
+    path: ./flutter-common-utils-v2
   ```
 
   
@@ -101,6 +101,50 @@
 
 
 
-### 5、最后
+### 5、启动过程中可能发生的错误
+
++ `uses-sdk:minSdkVersion 16 cannot be smaller than version 19 declared in library`
+
+  ```groovy
+  minSdkVersion 19
+  ```
+
+  
+
++ `Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && hasPermissionInManifest(context, null, permission ) `
+
+  ```groovy
+  compileSdkVersion 31
+  targetSdkVersion 31
+  ```
+
+  
+
++ `com.android.builder.dexing.DexArchiveMergerException: Error while merging dex archives: 
+  The number of method references in a .dex file cannot exceed 64K.1`
+
+  ```groovy
+  android {
+      //...
+      defaultConfig {
+          //...
+          multiDexEnabled true
+      }
+  }
+  ```
+
+  ```groovy
+  dependencies{
+  	implementation 'androidx.multidex:multidex: 2.0.1'
+  }
+  ```
+
+  
+
+  
+
+
+
+### 6、最后
 
 本项目工具库会长期更新维护下去...

@@ -1,4 +1,4 @@
-class TextUtils {
+class TextUtil {
   /// 判断数据是否是空的
   static bool isEmpty(String text) {
     text = text.trim();

@@ -1,7 +1,7 @@
 import 'package:common_utils_v2/common_utils_v2.dart';
 
 /// App权限工具类
-class PermissionUtils {
+class PermissionUtil {
   /// 获取全部权限
   static Future<void> requestAllPermission() async {
     Map<Permission, PermissionStatus> permission = await [
@@ -13,6 +13,7 @@ class PermissionUtils {
       Permission.phone,
       Permission.microphone,
       Permission.notification,
+      Permission.microphone,
     ].request();
 
     if (await Permission.camera.isGranted) {
@@ -31,6 +32,12 @@ class PermissionUtils {
       printLog(StackTrace.current, "语音权限申请通过");
     } else {
       printLog(StackTrace.current, "语音权限申请失败");
+    }
+
+    if (await Permission.microphone.isGranted) {
+      printLog(StackTrace.current, "麦克风权限申请通过");
+    } else {
+      printLog(StackTrace.current, "麦克风权限申请失败");
     }
 
     if (await Permission.storage.isGranted) {
@@ -63,18 +70,18 @@ class PermissionUtils {
     await permissions.request();
     for (var i = 0; i <= permissions.length; i++) {
       /// 第一次申请被拒绝 (true)
-      bool isDenied = await permissions[i].isDenied;
+      bool isDenied = await (permissions[i] as Permission).isDenied;
 
       /// 第二次申请被拒绝 (true)
-      bool isPermanentlyDenied = await permissions[i].isPermanentlyDenied;
+      bool isPermanentlyDenied = await (permissions[i] as Permission).isPermanentlyDenied;
 
       /// 已授权 (true)
-      bool isGranted = await permissions[i].isGranted;
+      bool isGranted = await (permissions[i] as Permission).isGranted;
 
       if (isGranted) {
         printLog(StackTrace.current, "${permissions[i]}权限已授权");
       } else if (isDenied || isPermanentlyDenied) {
-        Fluttertoast.showToast(msg: "为保证功能正常使用，请在设置中为app开启${permissions[i]}权限");
+        ToastUtil.show("为保证功能正常使用，请在设置中为app开启${permissions[i]}权限");
       }
     }
   }
@@ -89,9 +96,14 @@ class PermissionUtils {
     await requestPermission(permissions: [Permission.photos], permissionsDescribes: ["照片/存储"]);
   }
 
-  ///  麦克风/语音权限
+  ///  麦克风
+  static Future<void> requestMicrophonePermission() async {
+    await requestPermission(permissions: [Permission.microphone], permissionsDescribes: ["麦克风"]);
+  }
+
+  /// 语音
   static Future<void> requestSpeechPermission() async {
-    await requestPermission(permissions: [Permission.speech], permissionsDescribes: ["麦克风/语音"]);
+    await requestPermission(permissions: [Permission.speech], permissionsDescribes: ["语音"]);
   }
 
   /// 存储/文件权限

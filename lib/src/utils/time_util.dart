@@ -15,7 +15,7 @@ class TimeUtil {
   /// 根据时间戳 计算截至现在的天数
   /// timeStr 格式 yyyy-MM-dd hh:mm:ss
   static String getDayBetweenNow(String timeStr) {
-    if (TextUtils.isEmpty(timeStr)) {
+    if (TextUtil.isEmpty(timeStr)) {
       return "";
     }
     return DateTime.now().difference(DateTime.parse(timeStr)).inDays.toString();
@@ -26,7 +26,7 @@ class TimeUtil {
   /// 时间戳格式化  默认格式化格式 yyyy-MM-dd hh:mm:ss
   /// timeStamp 毫秒
   static String timeStampToStr(String timeStamp) {
-    if (TextUtils.isEmpty(timeStamp.toString())) {
+    if (TextUtil.isEmpty(timeStamp.toString())) {
       return "";
     }
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch( int.parse(timeStamp));

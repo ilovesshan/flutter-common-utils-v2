@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:common_utils_v2/common_utils_v2.dart';
 
 class MapNavigationUtil {
@@ -7,7 +9,7 @@ class MapNavigationUtil {
     var url = 'baidumap://map/direction?destination=$latitude,$longitude&coord_type=bd09ll&mode=driving';
     bool canLaunchUrl = await canLaunch(url);
     if (!canLaunchUrl) {
-      Fluttertoast.showToast(msg: "未检测到百度地图");
+     ToastUtil.show("未检测到百度地图");
       return false;
     }
     await launch(url);
@@ -19,7 +21,7 @@ class MapNavigationUtil {
     var url = 'qqmap://map/routeplan?type=drive&fromcoord=CurrentLocation&tocoord=$latitude,$longitude&referer=IXHBZ-QIZE4-ZQ6UP-DJYEO-HC2K2-EZBXJ';
     bool canLaunchUrl = await canLaunch(url);
     if (!canLaunchUrl) {
-      Fluttertoast.showToast(msg: "未检测到腾讯地图");
+     ToastUtil.show("未检测到腾讯地图");
       return false;
     }
     await launch(url);
@@ -31,7 +33,7 @@ class MapNavigationUtil {
     var url = '${Platform.isAndroid ? 'android' : 'ios'}amap://navi?sourceApplication=amap&lat=$latitude&lon=$longitude&dev=0&style=2';
     bool canLaunchUrl = await canLaunch(url);
     if (!canLaunchUrl) {
-      Fluttertoast.showToast(msg: "未检测到高德地图");
+     ToastUtil.show("未检测到高德地图");
       return false;
     }
     await launch(url);
@@ -52,7 +54,7 @@ class MapNavigationUtil {
         url = 'baidumap://map/direction?destination=$latitude,$longitude&coord_type=bd09ll&mode=driving';
         bool canLaunchUrl = await canLaunch(url);
         if (!canLaunchUrl) {
-          Fluttertoast.showToast(msg: "抱歉，未检测到您手机安装的导航类应用");
+         ToastUtil.show("抱歉，未检测到您手机安装的导航类应用");
           return false;
         }
       }

@@ -23,17 +23,17 @@ class SpUtil {
 
   /// 根据key删除值
   static Future<bool> removeValue(String key) async {
-    return await SpUtil.sharedPreferences.remove(key) ?? false;
+    return await SpUtil.sharedPreferences.remove(key);
   }
 
   /// 清除所有持久化数据
   static Future<bool> clean(String key) async {
-    return await SpUtil.sharedPreferences.clear() ?? false;
+    return await SpUtil.sharedPreferences.clear();
   }
 
   /// 是否包含key
   static containsKey(String key) async {
-    return SpUtil.sharedPreferences.containsKey(key) ?? false;
+    return SpUtil.sharedPreferences.containsKey(key);
   }
 
   /// 重新加载所有数据（仅重载运行时）

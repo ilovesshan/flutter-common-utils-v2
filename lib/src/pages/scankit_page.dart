@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'dart:ui';
 
 import 'package:common_utils_v2/common_utils_v2.dart';
@@ -49,10 +50,10 @@ class _ScanKitPageState extends State<ScanKitPage> {
                   if(isFirstLoadedResult){
                     Navigator.of(context).pop(result);
                     isFirstLoadedResult = false;
-                    EasyLoading.showToast("扫描成功");
+                  ToastUtil.show("扫描成功");
                   }
                 }).onError((error){
-                  EasyLoading.showToast("异常：${error.toString()}");
+                ToastUtil.show("异常：${error.toString()}");
                 });
               },
               continuouslyScan: false,

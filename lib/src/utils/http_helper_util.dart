@@ -1,18 +1,26 @@
 import 'package:common_utils_v2/common_utils_v2.dart';
 
 class HttpHelperUtil {
-  static const String baseurl = "https://63f13562.cpolar.io";
-  static const String baseWsUrl = "ws://7afb399d.cpolar.io/ws";
+  static String _baseurl = "https://475f3f65.cpolar.io";
+  static String _baseWsUrl = "ws://6d944e11.cpolar.io/ws";
 
   late final Dio _dio = initDio();
-
   static final HttpHelperUtil _instance = HttpHelperUtil();
+
+  static String get baseurl => _baseurl;
+
+  static String get baseWsUrl => _baseWsUrl;
 
   static HttpHelperUtil get instance => _instance;
 
+  static updateBaseUrl({String? baseurl, String? baseWsUrl}) {
+    _baseurl = baseurl ?? "https://common-utils-v2.io";
+    _baseWsUrl = baseWsUrl ?? "ws://common-utils-v2.io";
+  }
+
   Dio initDio() {
     BaseOptions baseOptions = BaseOptions(
-      baseUrl: baseurl,
+      baseUrl: _baseurl,
       sendTimeout: 5000,
       receiveTimeout: 5000,
     );
@@ -60,7 +68,7 @@ class DioInterceptor extends Interceptor {
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     printLog(StackTrace.current, response.data);
     if (response.data["code"] != 200) {
-      Fluttertoast.showToast(msg: response.data["message"]);
+      ToastUtil.show(response.data["message"]);
       return;
     }
     handler.next(response);

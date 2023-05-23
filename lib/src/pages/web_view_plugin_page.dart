@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'package:common_utils_v2/common_utils_v2.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart' as WV;
 
@@ -49,7 +51,7 @@ class _WebviewPluginPageState extends State<WebviewPluginPage> {
         WV.JavascriptChannel(
           name: 'RouterBackInterceptorClose',
           onMessageReceived: (WV.JavascriptMessage message) {
-            EasyLoading.showToast("操作成功");
+            ToastUtil.show("操作成功");
             Get.back();
           },
         ),

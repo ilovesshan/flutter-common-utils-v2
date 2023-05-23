@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:common_utils_v2/common_utils_v2.dart';
 
 // 上下滚动的消息轮播
