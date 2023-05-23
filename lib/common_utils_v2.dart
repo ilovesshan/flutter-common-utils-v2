@@ -47,15 +47,6 @@ export 'package:web_socket_channel/status.dart';
 export 'package:just_the_tooltip/just_the_tooltip.dart';
 
 
-
-/// 模型
-export 'src/mode/common_bottom_sheet_text_model.dart';
-export 'src/mode/common_bottom_sheet_icon_model.dart';
-
-
-/// 常量
-export 'src/constants/common_bottom_sheet_constants.dart';
-
 /// 通用 widget
 export 'src/widgets/common_bottom_bar.dart';
 export 'src/widgets/common_bottom_selector.dart';
@@ -75,6 +66,8 @@ export 'src/pages/web_view_plugin_page.dart';
 /// 解决export文件冲突
 export 'src/conflict/conflict.dart';
 
+/// 模型/常量
+export 'src/model/common_bottom_sheet_model.dart';
 
 /// 工具包
 export 'src/utils/app_initialize.dart';

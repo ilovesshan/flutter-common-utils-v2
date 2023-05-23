@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
 
-import 'package:common_utils_v2/common_utils_v2.dart';
+
+/// 底部弹框 通用Mode(Icon + Text)
+class CommonBottomSheetIconModel {
+  IconData icon;
+  String name;
+  String id;
+
+  CommonBottomSheetIconModel({required this.icon, required this.name, required this.id,});
+}
+
+
+/// 底部弹框 通用Mode(Text)
+class CommonBottomSheetTextModel {
+  String name;
+  String id;
+
+  CommonBottomSheetTextModel({required this.name, required this.id,});
+}
 
 class CommonBottomSheetConstants {
   static List<CommonBottomSheetTextModel> pickerOptions = [

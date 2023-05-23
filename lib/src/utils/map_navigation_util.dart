@@ -6,7 +6,7 @@ class MapNavigationUtil {
 
   /// 百度地图
   static Future<bool> gotoBaiduMap(longitude, latitude) async {
-    var url = 'baidumap://map/direction?destination=$latitude,$longitude&coord_type=bd09ll&mode=driving';
+    var url = 'baidumap://map/direction?destination=$latitude,$longitude&coord_type=bd09ll&model=driving';
     bool canLaunchUrl = await canLaunch(url);
     if (!canLaunchUrl) {
      ToastUtil.show("未检测到百度地图");
@@ -51,7 +51,7 @@ class MapNavigationUtil {
       bool canLaunchUrl = await canLaunch(url);
       if (!canLaunchUrl) {
         /// 尝试 百度地图
-        url = 'baidumap://map/direction?destination=$latitude,$longitude&coord_type=bd09ll&mode=driving';
+        url = 'baidumap://map/direction?destination=$latitude,$longitude&coord_type=bd09ll&model=driving';
         bool canLaunchUrl = await canLaunch(url);
         if (!canLaunchUrl) {
          ToastUtil.show("抱歉，未检测到您手机安装的导航类应用");

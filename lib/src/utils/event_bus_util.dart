@@ -1,12 +1,11 @@
 typedef EventBusCallback = void Function(dynamic data);
 
 class EventBusCallbackModel {
-  String? key;
-  List<EventBusCallback>? callbacks;
+  String key;
+  List<EventBusCallback> callbacks;
 
-  EventBusCallbackModel({this.key,this.callbacks});
+  EventBusCallbackModel({required this.key, required this.callbacks});
 }
-
 
 class EventBusUtil {
   static final List<EventBusCallbackModel> _callbacks = [];
@@ -30,26 +29,24 @@ class EventBusUtil {
     if (!hasExit) {
       currentCallBack.callbacks = [];
     }
-    currentCallBack.callbacks!.add(callback);
+    currentCallBack.callbacks.add(callback);
     _callbacks.add(currentCallBack);
   }
-
 
   /// 添加订阅
   static void $emit(String key, dynamic data) {
     List<EventBusCallback> callbackList = [];
     for (var i = 0; i < _callbacks.length; i++) {
       if (_callbacks[i].key == key) {
-        callbackList = _callbacks[i].callbacks!;
+        callbackList = _callbacks[i].callbacks;
         break;
       }
     }
 
-    for(var callback in callbackList){
+    for (var callback in callbackList) {
       callback.call(data);
     }
   }
-
 
   /// 取消订阅
   static void $remove(String key) {
