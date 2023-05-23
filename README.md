@@ -106,7 +106,10 @@
 + `uses-sdk:minSdkVersion 16 cannot be smaller than version 19 declared in library`
 
   ```groovy
-  minSdkVersion 19
+  // build.gradle（项目级别 ）
+  android {
+      compileSdkVersion 31
+  }
   ```
 
   
@@ -114,8 +117,15 @@
 + `Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && hasPermissionInManifest(context, null, permission ) `
 
   ```groovy
-  compileSdkVersion 31
-  targetSdkVersion 31
+  // build.gradle（项目级别 ）
+  android {
+      //...
+      defaultConfig {
+          //...
+          minSdkVersion 19
+          targetSdkVersion 31
+      }
+  }
   ```
 
   
@@ -124,6 +134,7 @@
   The number of method references in a .dex file cannot exceed 64K.1`
 
   ```groovy
+  // build.gradle（项目级别 ）
   android {
       //...
       defaultConfig {
@@ -132,10 +143,35 @@
       }
   }
   ```
+  
+  ```groovy
+  // build.gradle（项目级别 ）
+  dependencies{
+      implementation 'androidx.multidex:multidex: 2.0.1'
+  }
+  ```
+
+  
+  
++ `Module was compiled with an incompatible version of Kotlin. The binary version of its metadata is 1.6.0, expected version is 1.1.15.`
 
   ```groovy
-  dependencies{
-  	implementation 'androidx.multidex:multidex: 2.0.1'
+  // build.gradle（项目级别 ）
+  dependencies {
+      // 项目如果有自动生成请忽略
+      implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  }
+  ```
+
+  ```groovy
+  // build.gradle（工程级别 ）
+  buildscript {
+      // ....
+      ext.kotlin_version = '1.6.10'
+      dependencies {
+          // 项目如果有自动生成请忽略
+          classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+      }
   }
   ```
 
