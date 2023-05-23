@@ -2,7 +2,7 @@
 
 ### 1、简介
 
-+ flutter-common-utils-v2：基于dart API以及常用的三方插件封装的一个通用工具包，里面主要封装了日常开发中的常见的工具类以及通用Widget，工具包中对一些三方插件做了一层简单封装，具体引用可以查看pub文件清单。
++ flutter-common-utils-v2：基于dart API以及常用的三方插件封装的一个通用工具包，里面主要封装了日常开发中的通用的工具类以及通用Widget/page，工具包中对一些三方插件做了一层简单封装，具体引用可以查看pub文件清单。
 + flutter-common-utils-v2相较于flutter-common-utils更加轻量级。
 
 
