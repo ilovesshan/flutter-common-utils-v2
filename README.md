@@ -338,7 +338,31 @@
 
   
 
-  
++ 如果编译时提示关于语法/资源未找相关的警告/错误时，请尝试清空项目缓存以及androidStudio缓存
+
+  + 清空项目缓存
+
+    ```dart
+    flutter clean
+    ```
+
+    
+
+  + 清空androidStudio缓存
+
+    ```dart
+    File -> Invalidate Caches -> [勾选]Clear file system cache and Local History -> Invalidate and Restart
+    ```
+
+    
+
+  + 拉取项目依赖
+
+    ```dart
+    flutter pub get
+    ```
+
+    
 
 
 
