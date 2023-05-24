@@ -4,7 +4,6 @@ library common_utils_v2;
 export 'package:dio/dio.dart';
 export 'package:flutter_xupdate/flutter_xupdate.dart';
 export 'package:shared_preferences/shared_preferences.dart';
-export 'package:flutter/foundation.dart' show kIsWeb;
 export 'package:flutter_sound_lite/flutter_sound.dart';
 export 'package:flutter_sound_lite/public/flutter_sound_recorder.dart';
 export 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
@@ -14,8 +13,6 @@ export 'package:pointycastle/asymmetric/api.dart';
 export 'package:barcode_scan2/barcode_scan2.dart';
 export 'package:connectivity/connectivity.dart';
 export 'package:flutter_scankit/scan_kit_widget.dart';
-export 'package:flutter/foundation.dart';
-export 'package:flutter/rendering.dart';
 export 'package:photo_view/photo_view.dart';
 export 'package:photo_view/photo_view_gallery.dart';
 export 'package:provider/provider.dart';
@@ -36,7 +33,6 @@ export 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 export 'package:curved_navigation_bar/curved_navigation_bar.dart';
 export 'package:flutter_sound_lite/flutter_sound.dart';
 export 'package:path_provider/path_provider.dart';
-export 'package:flutter/services.dart';
 export 'package:fluttertoast/fluttertoast.dart';
 export 'package:image_picker/image_picker.dart';
 export 'package:qr_flutter/qr_flutter.dart';
@@ -45,7 +41,8 @@ export 'package:flutter_xupdate/flutter_xupdate.dart';
 export 'package:web_socket_channel/web_socket_channel.dart';
 export 'package:web_socket_channel/status.dart';
 export 'package:just_the_tooltip/just_the_tooltip.dart';
-
+export 'package:logger/logger.dart';
+export 'package:device_info_plus/device_info_plus.dart';
 
 /// 通用 widget
 export 'src/widgets/common_bottom_bar.dart';
@@ -53,7 +50,7 @@ export 'src/widgets/common_bottom_selector.dart';
 export 'src/widgets/refresh_widget.dart';
 export 'src/widgets/swiper_widget.dart';
 export 'src/widgets/marquee_widget.dart';
-export 'src/widgets/nav_bar.dart';
+export 'src/widgets/common_app_bar.dart';
 
 
 /// 公共页面
@@ -79,6 +76,7 @@ export 'src/utils/function_proxy.dart';
 export 'src/utils/http_helper_util.dart';
 export 'src/utils/image_picker_util.dart';
 export 'src/utils/log_util.dart';
+export 'src/utils/log_plus_util.dart';
 export 'src/utils/map_navigation_util.dart';
 export 'src/utils/permission_util.dart';
 export 'src/utils/qr_scanner_util.dart';

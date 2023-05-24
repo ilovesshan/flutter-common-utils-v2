@@ -35,7 +35,7 @@ class _WebviewPageState extends State<WebviewPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonBottomBar.showAppBar(title),
+      appBar: CommonAppBar.show(title),
       body: WebView(
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController webViewController) {
