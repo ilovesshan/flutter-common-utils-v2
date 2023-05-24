@@ -44,6 +44,7 @@ export 'package:just_the_tooltip/just_the_tooltip.dart';
 export 'package:logger/logger.dart';
 export 'package:flutter_native_splash/flutter_native_splash.dart';
 export 'package:device_info_plus/device_info_plus.dart';
+export 'package:device_info_plus_platform_interface/device_info_plus_platform_interface.dart';
 export 'package:floor/floor.dart';
 export 'package:path/path.dart';
 // export 'package:sqflite/sqflite.dart';
