@@ -42,6 +42,7 @@ export 'package:web_socket_channel/web_socket_channel.dart';
 export 'package:web_socket_channel/status.dart';
 export 'package:just_the_tooltip/just_the_tooltip.dart';
 export 'package:logger/logger.dart';
+export 'package:flutter_native_splash/flutter_native_splash.dart';
 export 'package:device_info_plus/device_info_plus.dart';
 export 'package:floor/floor.dart';
 export 'package:path/path.dart';
