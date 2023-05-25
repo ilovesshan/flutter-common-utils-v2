@@ -45,9 +45,8 @@ export 'package:logger/logger.dart';
 export 'package:flutter_native_splash/flutter_native_splash.dart';
 export 'package:device_info_plus/device_info_plus.dart';
 export 'package:device_info_plus_platform_interface/device_info_plus_platform_interface.dart';
-export 'package:floor/floor.dart';
+export 'package:sqflite/sqflite.dart';
 export 'package:path/path.dart';
-// export 'package:sqflite/sqflite.dart';
 
 /// 通用 widget
 export 'src/widgets/common_bottom_bar.dart';
@@ -57,13 +56,11 @@ export 'src/widgets/swiper_widget.dart';
 export 'src/widgets/marquee_widget.dart';
 export 'src/widgets/common_app_bar.dart';
 
-
 /// 公共页面
 export 'src/pages/image_preview_page.dart';
 export 'src/pages/scankit_page.dart';
 export 'src/pages/web_view_page.dart';
 export 'src/pages/web_view_plugin_page.dart';
-
 
 /// 解决export文件冲突
 export 'src/conflict/conflict.dart';
@@ -88,6 +85,7 @@ export 'src/utils/qr_scanner_util.dart';
 export 'src/utils/record_util.dart';
 export 'src/utils/rsa_util.dart';
 export 'src/utils/shared_preferences_util.dart';
+export 'src/utils/sqlite_helper_util.dart';
 export 'src/utils/text_util.dart';
 export 'src/utils/time_util.dart';
 export 'src/utils/toast_util.dart';
