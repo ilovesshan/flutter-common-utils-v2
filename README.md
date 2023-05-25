@@ -111,7 +111,7 @@
         /// 使用 GetMaterialApp替换MaterialApp
         child: GetMaterialApp(
           /// APP主题配色方案
-          theme: YAppInitialize.appTheme("2196f3"),
+          theme: AppInitialize.appTheme("2196f3"),
           /// 使用Get提供的路由解决方案(也可自行选择其他三方库)
           initialRoute: AppRouter.initRoute,
           getPages: AppRouter.routes(),
