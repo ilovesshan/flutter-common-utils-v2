@@ -144,7 +144,7 @@
     }
   }
   
-  /// 初始化 Sqlite数据库（适当对代码进行抽取）
+  /// 初始化 Sqlite数据库（请适当对代码进行抽取）
   Future<void> initSqliteDb() async {
     /// 初始化数据库
     await SqliteHelperUtil.openDb(
@@ -163,7 +163,7 @@
     );
   }
   
-  /// 初始化bindings（适当对代码进行抽取）
+  /// 初始化bindings（请适当对代码进行抽取）
   class InitBinding implements Bindings {
     @override
     void dependencies() {
@@ -190,7 +190,7 @@
     /// 路由表
     static List<GetPage> routes() {
       return [
-        /// binding / bindings 是可选的根据业务需求选择合适的解决方案即可
+        /// binding / bindings 是可选的，根据业务需求选择合适的解决方案即可
         GetPage(name: splash, page: () => SplashPage(), binding: SplashBinding()),
         GetPage(name: home, page: () => HomePage(), binding: HomeBinding()),
         /// 命名路由传参方式
@@ -241,7 +241,7 @@
   class SplashBinding extends Bindings {
     @override
     void dependencies() {
-      /// 注入控制器
+      /// 注入控制器...
     }
   }
   ```
@@ -253,8 +253,10 @@
 + 项目提供了通用的AppBar小部件，如果要使用AppBar小部件，请将[图片资源](https://github.com/ilovesshan/flutter-common-utils-v2/tree/master/assets/common)`copy`到项目根路径 ` assets/common/` 目录下（也可自行替换图片，需要保证文件名称正确性）
 
   ```dart
-  NavBar.showWidthPrimaryTheme("样式跟随主题色")
-  NavBar.showWidthPrimaryTheme("简朴白色")
+  /// 样式跟随主题色
+  NavBar.showWidthPrimaryTheme("titleName")
+  /// 简朴白色
+  NavBar.showWidthPrimaryTheme("titleName")
   ```
 
   
