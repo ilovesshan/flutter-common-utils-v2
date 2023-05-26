@@ -28,12 +28,13 @@
     + 日志输出
     + 调用三方地图导航（高德、百度、腾讯）
     + 权限申请
+    + 常用正则表达式工具封装
     + 扫二维码/条形码
     + 音频录制/播放
     + RSA/MD5/Base64加解密工具
     + SharedPreferences封装
     + Sqlite工具封装
-    + 文本判空与填充
+    + 字符串常用API封装
     + 时间日期转换
     + Toast轻提示
     + APP更新
@@ -86,7 +87,11 @@
   import 'package:common_utils_v2/common_utils_v2.dart';
   
   void main() async {
-    runApp(const RootApplication());
+    /// 添加Flutter全局异常捕获(可选)
+    runZonedGuarded(() => runApp(const RootApplication()), (Object error, StackTrace stack) {
+      /// 没有被我们代码catch到的异常
+      Log.e(error.toString(), error, stack);
+    });
   
     /// 初始化 SharedPreferences(可选)
     await SpUtil.initSharedPreferences();
