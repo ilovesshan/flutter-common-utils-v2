@@ -87,6 +87,8 @@ dependencies:
   device_info_plus: '4.0.0'
   # Flutter的SQLite插件
   sqflite: '2.0.2'
+  # 图片压缩
+  flutter_image_compress: '2.0.0'
 
 dev_dependencies:
   flutter_test:
