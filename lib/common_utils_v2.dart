@@ -83,6 +83,7 @@ export 'src/utils/map_navigation_util.dart';
 export 'src/utils/permission_util.dart';
 export 'src/utils/qr_scanner_util.dart';
 export 'src/utils/record_util.dart';
+export 'src/utils/reg_exp_util.dart';
 export 'src/utils/encrypt_util.dart';
 export 'src/utils/shared_preferences_util.dart';
 export 'src/utils/sqlite_helper_util.dart';
