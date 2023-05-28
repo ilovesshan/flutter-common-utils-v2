@@ -95,6 +95,8 @@ dependencies:
   quick_actions: '0.6.0+7'
   # 处理英语单词
   english_words: ^4.0.0
+  # 显示和推送Flutter本地通知
+  flutter_local_notifications: '8.0.0'
 
 dev_dependencies:
   flutter_test:

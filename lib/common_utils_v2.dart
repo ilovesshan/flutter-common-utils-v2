@@ -51,6 +51,7 @@ export 'package:flutter_image_compress_common/flutter_image_compress_common.dart
 export 'package:flutter_app_badger/flutter_app_badger.dart';
 export 'package:quick_actions/quick_actions.dart';
 export 'package:english_words/english_words.dart';
+export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 
 /// 通用 widget
@@ -89,6 +90,7 @@ export 'src/utils/image_picker_util.dart';
 export 'src/utils/log_plus_util.dart';
 export 'src/utils/log_util.dart';
 export 'src/utils/map_navigation_util.dart';
+export 'src/utils/notification_util.dart';
 export 'src/utils/permission_util.dart';
 export 'src/utils/qr_scanner_util.dart';
 export 'src/utils/record_util.dart';

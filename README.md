@@ -99,6 +99,12 @@
       
     /// 初始化 Sqlite数据库(可选)
     await initSqliteDb();
+     
+    /// 初始化Flutter本地推送(可选)
+    await NotificationUtil.initNotification(notificationCallback: (String? payload) async {
+      Log.e("current notification clicked result payload: $payload");
+    });
+      
   }
   
   class RootApplication extends StatefulWidget {
@@ -256,17 +262,6 @@
 
 ### 4、扩展配置
 
-+ 项目提供了通用的AppBar小部件，如果要使用AppBar小部件，请将[图片资源](https://github.com/ilovesshan/flutter-common-utils-v2/tree/master/assets/common)copy到项目根路径  assets/common/ 目录下（也可自行替换图片，需要保证文件名称正确性）
-
-  ```dart
-  /// 样式跟随主题色
-  NavBar.showWidthPrimaryTheme("titleName")
-  /// 简朴白色
-  NavBar.showWidthPrimaryTheme("titleName")
-  ```
-
-  
-
 + 项目集成了 flutter闪屏页插件，下面列举简单用法，具体用法请参考：[flutter_native_splash]( https://pub.dev/packages/flutter_native_splash)
 
   + 自定义闪屏页配置并将其添加到项目的pubspec.yaml文件中或放置在名为的根项目文件夹中的新文件中flutter_native_splash.yaml。
@@ -291,9 +286,9 @@
     ```dart
     flutter pub run flutter_native_splash:remove
     ```
+
   
-  
-  
+
 + 关于RAS加解密说明，EncryptUtil 提供了两种方式进行RSA加解密。
 
   + 直接传入公钥或者私钥方式进行加解密
