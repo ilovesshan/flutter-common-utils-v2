@@ -89,6 +89,12 @@ dependencies:
   sqflite: '2.0.2'
   # 图片压缩
   flutter_image_compress: '2.0.0'
+  # 更新应用程序徽章
+  flutter_app_badger: ^1.5.0
+  # 应用程序(快捷启动菜单)
+  quick_actions: '0.6.0+7'
+  # 处理英语单词
+  english_words: ^4.0.0
 
 dev_dependencies:
   flutter_test:

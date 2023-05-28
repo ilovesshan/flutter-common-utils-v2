@@ -48,6 +48,10 @@ export 'package:device_info_plus_platform_interface/device_info_plus_platform_in
 export 'package:sqflite/sqflite.dart';
 export 'package:path/path.dart';
 export 'package:flutter_image_compress_common/flutter_image_compress_common.dart';
+export 'package:flutter_app_badger/flutter_app_badger.dart';
+export 'package:quick_actions/quick_actions.dart';
+export 'package:english_words/english_words.dart';
+
 
 /// 通用 widget
 export 'src/widgets/common_bottom_bar.dart';
