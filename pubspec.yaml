@@ -104,8 +104,4 @@ dev_dependencies:
   # 生成文件的通用命令
   build_runner: '2.1.2'
 
-
 flutter:
-
-  assets:
-    - assets/common/
