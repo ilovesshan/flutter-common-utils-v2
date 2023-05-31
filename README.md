@@ -26,6 +26,7 @@
     + 文件上传/文件下载
     + Dio网络请求封装
     + 图片/拍摄选择器
+    + 处理地理位置信息（高德地图）
     + 日志输出
     + 调用三方地图导航（高德、百度、腾讯）
     + 权限申请
@@ -164,7 +165,7 @@
       version: 1,
       onCreate: (db, version) {
         Log.d("数据库初始化：version = $version");
-        db.execute("""""");
+        /// db.execute("""""");
       },
       onUpgrade: (db, oldVersion, newVersion) {
         Log.d("数据库版本升级：oldVersion = $oldVersion, newVersion = $newVersion");
@@ -289,6 +290,30 @@
 
   
 
++ 关于调用LocationUtil工具类来获取/处理地理位置等信息时，需要在清单文件中声明对应权限并且进行初始化
+
+  + 注意android工程需要支持AndroidX，具体参考：https://pub.flutter-io.cn/packages/geolocator
+
+  + 清单文件中声明对应权限
+  
+    ```
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    ```
+  
+    
+  
+  + 进行初始化
+
+    ```dart
+    if (Platform.isAndroid) {
+        GeolocatorAndroid.registerWith();
+    }
+    ```
+  
+  
+  
 + 关于RAS加解密说明，EncryptUtil 提供了两种方式进行RSA加解密。
 
   + 直接传入公钥或者私钥方式进行加解密

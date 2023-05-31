@@ -52,7 +52,9 @@ export 'package:flutter_app_badger/flutter_app_badger.dart';
 export 'package:quick_actions/quick_actions.dart';
 export 'package:english_words/english_words.dart';
 export 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
+export 'package:geolocator/geolocator.dart' hide ServiceStatus;
+export 'package:geolocator_android/geolocator_android.dart' hide ServiceStatus;
+export 'package:geolocator_apple/geolocator_apple.dart';
 
 /// 通用 widget
 export 'src/widgets/common_bottom_bar.dart';
@@ -87,6 +89,7 @@ export 'src/utils/file_upload_util.dart';
 export 'src/utils/function_proxy.dart';
 export 'src/utils/http_helper_util.dart';
 export 'src/utils/image_picker_util.dart';
+export 'src/utils/location_util.dart';
 export 'src/utils/log_plus_util.dart';
 export 'src/utils/log_util.dart';
 export 'src/utils/map_navigation_util.dart';

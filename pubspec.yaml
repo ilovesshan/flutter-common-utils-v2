@@ -97,6 +97,10 @@ dependencies:
   english_words: ^4.0.0
   # 显示和推送Flutter本地通知
   flutter_local_notifications: '8.0.0'
+  # 文本复制到剪贴板并从剪贴板粘贴
+  clipboard: ^0.1.3
+  # 获取地理位置信息
+  geolocator: ^8.0.0
 
 dev_dependencies:
   flutter_test:

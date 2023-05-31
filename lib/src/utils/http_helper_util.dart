@@ -66,7 +66,13 @@ class DioInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    printLog(StackTrace.current, response.data);
+    /// 处理调用第三方API的异常情况(高德地图)
+    if (response.requestOptions.path.contains(LocationUtil.gaoDeMapBaseUrl)) {
+      handler.next(response);
+      return;
+    }
+
+    ///  处理调用自己项目API的异常情况
     if (response.data["code"] != 200) {
       ToastUtil.show(response.data["message"]);
       return;
@@ -76,6 +82,6 @@ class DioInterceptor extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    printLog(StackTrace.current, "${err.response}");
+    Log.e(err.toString(), err.error, err.stackTrace);
   }
 }
