@@ -50,7 +50,7 @@
 
   +  Dart sdk 版本： 2.14.0
 
-    ```bash
+    ```
     Flutter 2.5.0 • channel stable • https://github.com/flutter/flutter.git
     Framework • revision 4cc385b4b8 (1 year, 8 months ago) • 2021-09-07 23:01:49 -0700
     Engine • revision f0826da7ef
@@ -61,7 +61,7 @@
 
 + 将项目clone到本地进入导入
 
-  ```
+  ```yaml
   common_utils_v2:
     path: ./flutter-common-utils-v2
   ```
@@ -70,7 +70,7 @@
 
 + 通过 git远程方式导入
 
-  ```
+  ```yaml
   common_utils_v2:
     git:
       url: https://github.com/ilovesshan/flutter-common-utils-v2.git
