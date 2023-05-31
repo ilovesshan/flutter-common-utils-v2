@@ -44,11 +44,11 @@
 
 ### 2、导入
 
-+  flutter-common-utils-v2 工具包引用版本说明
++ flutter-common-utils-v2 工具包引用版本说明
 
   + flutter版本： 2.5.0 
 
-  +  Dart sdk 版本： 2.14.0
+  + Dart sdk 版本： 2.14.0
 
     ```
     Flutter 2.5.0 • channel stable • https://github.com/flutter/flutter.git
