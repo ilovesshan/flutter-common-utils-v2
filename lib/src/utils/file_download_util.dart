@@ -1,21 +1,55 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui' as ui;
+import 'dart:ui';
 
 import 'package:common_utils_v2/common_utils_v2.dart';
 
 class FileDownloadUtil {
   /// 下载图片
-  static Future<void> downloadImage(String imageUrl, {bool isAsset = false, String fileName = ""}) async {
-    ToastUtil.show("下载中");
+  static Future<dynamic> downloadImage(String remoteResourceUri, {String fileName = "", String ext = "png", bool isAsset = false, bool showToast = true}) async {
+    if (showToast) {
+      ToastUtil.show("下载中");
+    }
     try {
-      var response = await Dio().get(imageUrl, options: Options(responseType: ResponseType.bytes));
-      final result =
-          await ImageGallerySaver.saveImage(Uint8List.fromList(response.data), quality: 60, name: TextUtil.isEmptyWith(fileName, TimeUtil.currentTimeMillis().toString()));
-      printLog(StackTrace.current, result);
-      ToastUtil.show("下载成功");
+      Directory directory = await getApplicationDocumentsDirectory();
+      var response = await Dio().get(remoteResourceUri, options: Options(responseType: ResponseType.bytes));
+      String saveFileName = TextUtil.isEmpty(fileName) ? "${directory.path}/$fileName" : "${directory.path}/${TimeUtil.currentTimeMillis()}.$ext";
+      final result = await ImageGallerySaver.saveImage(Uint8List.fromList(response.data), quality: 80, name: saveFileName);
+      Log.d(result);
+      if (showToast) {
+        ToastUtil.show("下载成功");
+      }
+      return result;
     } catch (e) {
-      printLog(StackTrace.current, e);
-      ToastUtil.show("下载失败");
+      Log.e(e.toString(), e);
+      if (showToast) {
+        ToastUtil.show("下载失败");
+      }
+    }
+  }
+
+  /// 下载图片 保存ui.Image类型(一般用于水印)
+  static Future<dynamic> downloadImageByUIImage(ui.Image image, {String fileName = "", String ext = "png", bool showToast = true}) async {
+    if (showToast) {
+      ToastUtil.show("下载中");
+    }
+    try {
+      ByteData? byteData = await image.toByteData(format: ImageByteFormat.png);
+      Uint8List pngBytes = byteData!.buffer.asUint8List();
+      Directory directory = await getApplicationDocumentsDirectory();
+      String saveFileName = TextUtil.isEmpty(fileName) ? "${directory.path}/$fileName" : "${directory.path}/${TimeUtil.currentTimeMillis()}.$ext";
+      final result = await ImageGallerySaver.saveImage(Uint8List.fromList(pngBytes), quality: 100, name: saveFileName);
+      Log.d(result);
+      if (showToast) {
+        ToastUtil.show("下载成功");
+      }
+      return result;
+    } catch (e) {
+      Log.e(e.toString(), e);
+      if (showToast) {
+        ToastUtil.show("下载失败");
+      }
     }
   }
 
@@ -36,7 +70,7 @@ class FileDownloadUtil {
         await file.writeAsBytes(response.data);
         return fileName;
       } catch (e) {
-        printLog(StackTrace.current, e);
+        Log.e(e.toString(), e);
         ToastUtil.show("缓冲失败");
       }
     }

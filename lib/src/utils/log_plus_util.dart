@@ -43,7 +43,7 @@ class Log {
 class AppConsoleOutput extends LogOutput {
   @override
   void output(OutputEvent event) {
-    event.lines.removeAt(2);
+    // event.lines.removeAt(2);
     event.lines.forEach(print);
   }
 }
