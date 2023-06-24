@@ -222,7 +222,6 @@
       return this;
     }
   }
-  
   ```
   
   
@@ -364,6 +363,7 @@
 
     
 
+
   + 执行创建闪屏页命令（ios、android自动生成相关资源）
 
     ```dart
@@ -372,28 +372,28 @@
 
     
 
+
   + 恢复到默认状态
 
     ```dart
     flutter pub run flutter_native_splash:remove
     ```
 
-  
+
+
 
 + 关于调用LocationUtil工具类来获取/处理地理位置等信息时，需要在清单文件中声明对应权限并且进行初始化
 
   + 注意android工程需要支持AndroidX，具体参考：https://pub.flutter-io.cn/packages/geolocator
 
   + 清单文件中声明对应权限
-  
+
     ```
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     ```
-  
-    
-  
+
   + 进行初始化
 
     ```dart
@@ -401,9 +401,9 @@
         GeolocatorAndroid.registerWith();
     }
     ```
+
   
-  
-  
+
 + 关于RAS加解密说明，EncryptUtil 提供了两种方式进行RSA加解密。
 
   + 直接传入公钥或者私钥方式进行加解密
@@ -481,9 +481,8 @@
     String decodeRsaLoadByFile = await EncryptUtil.decodeRsaLoadByFile(content: encodeRsa, privateKeyFilePath: "assets/key/private.pem");
     ```
 
-    
 
-  
+
 
 ### 5、启动过程中可能发生的错误
 
