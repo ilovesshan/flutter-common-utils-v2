@@ -106,6 +106,8 @@ dependencies:
   video_player: 2.2.7
   # 随机中英文名
   username: ^0.2.3
+  # 汉字转拼音
+  lpinyin: ^2.0.3
 
 dev_dependencies:
   flutter_test:

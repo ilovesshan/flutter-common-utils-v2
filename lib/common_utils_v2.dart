@@ -57,6 +57,7 @@ export 'package:geolocator_apple/geolocator_apple.dart';
 export 'package:chewie/chewie.dart';
 export 'package:video_player/video_player.dart';
 export 'package:username/username.dart';
+export 'package:lpinyin/lpinyin.dart';
 
 /// 通用 widget
 export 'src/widgets/common_bottom_bar.dart';
