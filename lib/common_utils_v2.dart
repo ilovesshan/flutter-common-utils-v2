@@ -56,6 +56,7 @@ export 'package:geolocator_android/geolocator_android.dart' hide ServiceStatus;
 export 'package:geolocator_apple/geolocator_apple.dart';
 export 'package:chewie/chewie.dart';
 export 'package:video_player/video_player.dart';
+export 'package:username/username.dart';
 
 /// 通用 widget
 export 'src/widgets/common_bottom_bar.dart';
@@ -97,6 +98,7 @@ export 'src/utils/map_navigation_util.dart';
 export 'src/utils/notification_util.dart';
 export 'src/utils/permission_util.dart';
 export 'src/utils/qr_scanner_util.dart';
+export 'src/utils/random_name_util.dart';
 export 'src/utils/record_util.dart';
 export 'src/utils/reg_exp_util.dart';
 export 'src/utils/shared_preferences_util.dart';
