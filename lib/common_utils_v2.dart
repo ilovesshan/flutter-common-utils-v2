@@ -46,7 +46,6 @@ export 'package:flutter_native_splash/flutter_native_splash.dart';
 export 'package:device_info_plus/device_info_plus.dart';
 export 'package:device_info_plus_platform_interface/device_info_plus_platform_interface.dart';
 export 'package:sqflite/sqflite.dart';
-export 'package:path/path.dart';
 export 'package:flutter_image_compress_common/flutter_image_compress_common.dart';
 export 'package:flutter_app_badger/flutter_app_badger.dart';
 export 'package:quick_actions/quick_actions.dart';
@@ -55,6 +54,8 @@ export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 export 'package:geolocator/geolocator.dart' hide ServiceStatus;
 export 'package:geolocator_android/geolocator_android.dart' hide ServiceStatus;
 export 'package:geolocator_apple/geolocator_apple.dart';
+export 'package:chewie/chewie.dart';
+export 'package:video_player/video_player.dart';
 
 /// 通用 widget
 export 'src/widgets/common_bottom_bar.dart';
