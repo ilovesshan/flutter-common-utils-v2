@@ -84,28 +84,23 @@
 + 在项目入口文件main.dart进行配置（可以直接copy，再按需求修改即可）
 
   ```dart
+  import 'dart:async';
   import 'package:flutter/foundation.dart';
   import 'package:flutter/material.dart';
+  
   import 'package:common_utils_v2/common_utils_v2.dart';
   
   void main() async {
+    WidgetsFlutterBinding.ensureInitialized();
+  
+    /// 注入ApplicationService 用来初始化一些前置操作(可选)
+    await Get.putAsync(() => ApplicationService().init());
+  
     /// 添加Flutter全局异常捕获(可选)
     runZonedGuarded(() => runApp(const RootApplication()), (Object error, StackTrace stack) {
       /// 没有被我们代码catch到的异常
       Log.e(error.toString(), error, stack);
     });
-  
-    /// 初始化 SharedPreferences(可选)
-    await SpUtil.initSharedPreferences();
-      
-    /// 初始化 Sqlite数据库(可选)
-    await initSqliteDb();
-     
-    /// 初始化Flutter本地推送(可选)
-    await NotificationUtil.initNotification(notificationCallback: (String? payload) async {
-      Log.e("current notification clicked result payload: $payload");
-    });
-      
   }
   
   class RootApplication extends StatefulWidget {
@@ -120,33 +115,37 @@
     Widget build(BuildContext context) {
       /// 实现清明灰色主题 Colors.transparent(正常) Colors.grey(清明灰)
       return ColorFiltered(
-        colorFilter: const ColorFilter.mode(Colors.transparent, BlendMode.color),
+        colorFilter: ColorFilter.mode(ApplicationService.isOpenLucidGray ? Colors.grey : Colors.transparent, BlendMode.color),
+  
         /// 使用 GetMaterialApp替换MaterialApp
         child: GetMaterialApp(
           /// APP主题配色方案
           theme: AppInitialize.appTheme("2196f3"),
+  
           /// 使用Get提供的路由解决方案(也可自行选择其他三方库)
           initialRoute: AppRouter.initRoute,
           getPages: AppRouter.routes(),
-          navigatorKey: Get.key,
           onUnknownRoute: (routeSettings) => AppRouter.onUnknownRoute(routeSettings),
           routingCallback: (routing) => AppRouter.routingCallback(routing!),
-          navigatorObservers: [
-            /// 如果未使用GetMaterialApp ,则可以通过navigatorObservers来观察路由变化
-            GetObserver()
-          ],
-          /// 初始化时注入Bindings
-          initialBinding: InitBinding(),
+  
+          /// 顶层视图的key可以获取OverlayState对象
+          navigatorKey: ApplicationService.navigatorKey,
+  
+          /// 如果未使用GetMaterialApp ,则可以通过navigatorObservers来观察路由变化
+          navigatorObservers: [ApplicationController.routeObserver],
+  
           /// Get控制器的管理机制,默认 SmartManagement.full
           smartManagement: SmartManagement.full,
           builder: (context, child) {
             /// android状态栏为透明沉浸式
             AppInitialize.setSystemUiOverlayStyle();
+  
             /// 屏幕适配
             AppInitialize.initScreenUtil(context);
             return FlutterEasyLoading(
               child: GestureDetector(
                 child: child!,
+  
                 /// 点击空白区域关闭键盘
                 onTap: () => AppInitialize.closeKeyBord(context),
               ),
@@ -156,58 +155,111 @@
       );
     }
   }
-  
-  /// 初始化 Sqlite数据库（请适当对代码进行抽取）
-  Future<void> initSqliteDb() async {
-    /// 初始化数据库
-    await SqliteHelperUtil.openDb(
-      dbName: "user",
-      version: 1,
-      onCreate: (db, version) {
-        Log.d("数据库初始化：version = $version");
-        /// db.execute("""""");
-      },
-      onUpgrade: (db, oldVersion, newVersion) {
-        Log.d("数据库版本升级：oldVersion = $oldVersion, newVersion = $newVersion");
-      },
-      onDowngrade: (db, oldVersion, newVersion) {
-        Log.d("数据库版本降低级：oldVersion = $oldVersion, newVersion = $newVersion");
-      },
-    );
-  }
-  
-  /// 初始化bindings（请适当对代码进行抽取）
-  class InitBinding implements Bindings {
-    @override
-    void dependencies() {
-      Get.lazyPut(() => CountController());
-    }
-  }
   ```
 
   
 
-+ 路由文件信息(仅供参考)
++ ApplicationController(可选，仅供参考)
+
+  ```dart
+  class ApplicationController extends SuperController {
+    /// 路由观察对象
+    static final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+  
+    @override
+    void onInit() async {
+      super.onInit();
+      Log.v("App onInit...");
+    }
+  
+    @override
+    void onDetached() {
+      Log.v("App onDetached...");
+    }
+  
+    @override
+    void onInactive() {
+      Log.v("App onInactive...");
+    }
+  
+    @override
+    void onPaused() {
+      Log.v("App onPaused...");
+    }
+  
+    @override
+    void onResumed() async {
+      Log.v("App onResumed...");
+    }
+  }
+  ```
+  
+  
+  
++ ApplicationService(可选，仅供参考)
+
+  ```dart
+  class ApplicationService extends GetxService {
+    /// 通过顶层视图的key获取OverlayState对象
+    static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  
+    /// 是否开启清明灰主题
+    static bool isOpenLucidGray = false;
+  
+    /// 执行初始化操作
+    Future<ApplicationService> init() async {
+      /// 初始化 SharedPreferences(可选)
+      await SpUtil.initSharedPreferences();
+  
+      /// 初始化Flutter本地推送(可选)
+      await NotificationUtil.initNotification(notificationCallback: (String? payload) async {
+        Log.e("current notification clicked result payload: $payload");
+      });
+        
+      /// 这里可以做本地业务判断(今天是否是清明节)
+      await Future.delayed(const Duration(milliseconds: 500), () => isOpenLucidGray = false);
+  
+      return this;
+    }
+  }
+  
+  ```
+  
+  
+  
++ AppRouter(仅供参考)
 
   ```dart
   import 'package:flutter/material.dart';
   import 'package:common_utils_v2/common_utils_v2.dart';
   
-  
   class AppRouter {
     static const String initRoute = home;
-    static const String splash = "/splash";
-    static const String home = "/main";
-    static const String goodsDetail = "/goodsDetail";
+    static const String login = "/login";
+    static const String register = "/register";
+    static const String home = "/home";
   
     /// 路由表
     static List<GetPage> routes() {
       return [
-        /// binding / bindings 是可选的，根据业务需求选择合适的解决方案即可
-        GetPage(name: splash, page: () => SplashPage(), binding: SplashBinding()),
-        GetPage(name: home, page: () => HomePage(), binding: HomeBinding()),
-        /// 命名路由传参方式
-        GetPage(name: "$goodsDetail/:id", page: () => GoodsDetailPage(), bindings: const []),
+        /// binding、middlewares和bindings属性(可选) 按需求配置即可
+        GetPage(
+          name: login,
+          page: () => const LoginPage(),
+          binding: BindingsBuilder(() => Get.lazyPut(() => HomeController())),
+        ),
+        GetPage(
+          name: register,
+          page: () => const RegisterPage(),
+          bindings: [RegisterPageBinding()],
+        ),
+        GetPage(
+          name: home,
+          page: () => const HomePage(),
+          binding: BindingsBuilder(() => Get.lazyPut(() => LoginController())),
+          /// 使用中间件来限制用户需要登录才能访问该页面
+          middlewares: [LoginMiddleware()],
+        ),
       ];
     }
   
@@ -220,41 +272,47 @@
     }
   
     /// 路由拦截
-    static ValueChanged<Routing?>? routingCallback(Routing routing) {
-      if (routing.current == AppRouter.splash) {
-        /// 做业务处理...
-      }
-    }
+    static ValueChanged<Routing?>? routingCallback(Routing routing) {}
   }
   ```
   
   
   
-+ bingding类(仅供参考)
++ bingding类(可选，仅供参考)
 
   ```dart
-  /// Controller
-  class CountController extends GetxController {
-    final count = 0.obs;
-    increment() => count.value++;
-  }
+  /// RegisterController
+  class RegisterController extends GetxController {}
   
-  /// Binding
-  class HomeBinding extends Bindings {
+  /// RegisterPageBinding
+  class RegisterPageBinding extends Bindings {
     @override
     void dependencies() {
-      Get.lazyPut(() => CountController());
+      Get.lazyPut(() => RegisterController());
     }
   }
   ```
   
   
   
++ 路由中间件(可选，仅供参考)
+
   ```dart
-  class SplashBinding extends Bindings {
+  ///登录验证中间件
+  class LoginMiddleware extends GetMiddleware {
     @override
-    void dependencies() {
-      /// 注入控制器...
+    int? get priority => 0;
+  
+    ///进入目标页面之前将调用该函数
+    @override
+    RouteSettings? redirect(String? route) {
+      /// 查询用户登录状态
+      bool isLogin = Random().nextBool();
+      if (isLogin) {
+        return super.redirect(route);
+      } else {
+        return const RouteSettings(name: AppRouter.login);
+      }
     }
   }
   ```
@@ -262,6 +320,38 @@
 
 
 ### 4、扩展配置
+
++ 如果项目下载依赖很慢，可以尝试更换下载源。
+
+  ```groovy
+  // build.gradle（工程级别 ）
+  
+  // google()
+  // mavenCentral()
+  maven { url 'https://maven.aliyun.com/repository/google' }
+  maven { url 'https://maven.aliyun.com/repository/central' }
+  maven { url 'https://maven.aliyun.com/repository/public' }
+  maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+  ```
+
+  
+  
++ 自定义打包名称
+
+  ```groovy
+// build.gradle（项目级别 ）
+  android {
+      android.applicationVariants.all {
+          variant ->
+          variant.outputs.all {
+            // apk文件名
+              outputFileName = "Floating-${variant.name}-v${variant.versionName}.apk"
+        }
+      }
+}
+  ```
+  
+  
 
 + 项目集成了 flutter闪屏页插件，下面列举简单用法，具体用法请参考：[flutter_native_splash]( https://pub.dev/packages/flutter_native_splash)
 
@@ -441,7 +531,7 @@
   ```groovy
   // build.gradle（项目级别 ）
   dependencies{
-      implementation 'androidx.multidex:multidex: 2.0.1'
+      implementation 'androidx.multidex:multidex:2.0.1'
   }
   ```
 
@@ -481,14 +571,6 @@
 
     
 
-  + 清空androidStudio缓存
-
-    ```dart
-    File -> Invalidate Caches -> [勾选]Clear file system cache and Local History -> Invalidate and Restart
-    ```
-
-    
-
   + 拉取项目依赖
 
     ```dart
@@ -496,6 +578,11 @@
     ```
 
     
+    
+  + 如果上述操作依然不能解决，请尝试清空androidStudio缓存
+
+    ```tex
+    File -> Invalidate Caches -> [勾选]Clear file system cache and Local History -> Invalidate and Restart
 
 
 
