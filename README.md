@@ -335,21 +335,22 @@
 
   
   
-+ 自定义打包名称
++ 自定义打包名称11
 
   ```groovy
-// build.gradle（项目级别 ）
+  // build.gradle（项目级别 ）
+  
   android {
       android.applicationVariants.all {
           variant ->
           variant.outputs.all {
-            // apk文件名
+              // apk文件名
               outputFileName = "Floating-${variant.name}-v${variant.versionName}.apk"
-        }
+          }
       }
-}
+  }
   ```
-  
+
   
 
 + 项目集成了 flutter闪屏页插件，下面列举简单用法，具体用法请参考：[flutter_native_splash]( https://pub.dev/packages/flutter_native_splash)
