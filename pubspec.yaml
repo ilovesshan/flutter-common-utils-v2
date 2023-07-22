@@ -18,8 +18,6 @@ dependencies:
   get: ^4.6.0
   # 网络请求
   dio: ^4.0.6
-  # 全局toast插件
-  flutter_easyloading: ^3.0.5
   # 屏幕适配插件
   flutter_screenutil: '5.7.0'
   # 上拉加载、下拉刷新插件
@@ -75,7 +73,9 @@ dependencies:
   web_socket_channel: ^2.3.0
   # toast 轻提示
   fluttertoast: '8.2.1'
-  # 简单自动完成(模糊搜索)
+  bot_toast: ^4.0.4
+  flutter_easyloading: ^3.0.5
+  # 简单自动完成(模糊搜索)`
   # flutter_typeahead: '4.3.1'
   # 监听键盘弹出/关闭
   flutter_keyboard_visibility: '5.0.3'

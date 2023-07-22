@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-
 import 'package:common_utils_v2/common_utils_v2.dart';
 
 class ToastUtil {
-  static show(String text) {
-    Fluttertoast.showToast(msg: text);
+  /// Fluttertoast
+  static show(String msg) {
+    Fluttertoast.showToast(msg: msg);
   }
 
-  static showCustom(String text, {double? opacity}) {
+  /// Fluttertoast Custom
+  static showCustom(String msg, {double? opacity}) {
     Fluttertoast.showToast(
-      msg: text,
+      msg: msg,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
       timeInSecForIosWeb: 1,
@@ -17,5 +18,10 @@ class ToastUtil {
       textColor: Colors.white,
       fontSize: 16.0,
     );
+  }
+
+  /// BotToast
+  static void showToast(String msg) {
+    BotToast.showText(text: msg);
   }
 }

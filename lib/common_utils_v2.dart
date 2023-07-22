@@ -58,6 +58,7 @@ export 'package:chewie/chewie.dart';
 export 'package:video_player/video_player.dart';
 export 'package:username/username.dart';
 export 'package:lpinyin/lpinyin.dart';
+export 'package:bot_toast/bot_toast.dart';
 
 /// 通用 widget
 export 'src/widgets/common_bottom_bar.dart';
@@ -92,6 +93,7 @@ export 'src/utils/file_upload_util.dart';
 export 'src/utils/function_proxy.dart';
 export 'src/utils/http_helper_util.dart';
 export 'src/utils/image_picker_util.dart';
+export 'src/utils/loading_util.dart';
 export 'src/utils/location_util.dart';
 export 'src/utils/log_plus_util.dart';
 export 'src/utils/log_util.dart';
