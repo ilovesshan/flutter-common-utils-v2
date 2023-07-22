@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/src/size_extension.dart';
 
-class CommonStateWidget {
+class BaseStateWidget {
 
   /// 加载中...
   static Widget loadingWidget() {
