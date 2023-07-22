@@ -63,6 +63,7 @@ export 'package:bot_toast/bot_toast.dart';
 /// 通用 widget
 export 'src/widgets/common_bottom_bar.dart';
 export 'src/widgets/common_bottom_selector.dart';
+export 'src/widgets/common_state_widget.dart';
 export 'src/widgets/refresh_widget.dart';
 export 'src/widgets/swiper_widget.dart';
 export 'src/widgets/marquee_widget.dart';
