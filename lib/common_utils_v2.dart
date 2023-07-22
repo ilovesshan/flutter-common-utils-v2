@@ -82,6 +82,7 @@ export 'src/model/common_bottom_sheet_model.dart';
 
 /// 工具包
 export 'src/utils/app_initialize.dart';
+export 'src/utils/app_status_bar_util.dart';
 export 'src/utils/color_util.dart';
 export 'src/utils/connectivity_util.dart';
 export 'src/utils/device_info_util.dart';

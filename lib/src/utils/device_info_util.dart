@@ -1,9 +1,9 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:common_utils_v2/common_utils_v2.dart';
-
 
 enum RunTimePlatform { ANDRID, IOS, LINUX, MACOS, WINDOWS, WEBBROWSER, UNKNOW }
 
@@ -34,6 +34,32 @@ class DeviceInfoUtil {
       Log.e("Failed to get platform version");
       return RunTimePlatform.UNKNOW;
     }
+  }
+
+  ///获取当前设备platform
+  static TargetPlatform platform() {
+    return Theme.of(Get.context!).platform;
+  }
+
+  ///是否是web端
+  static bool get isWeb {
+    return kIsWeb;
+  }
+
+  ///是否是安卓端
+  static bool get isAndroid {
+    if (kIsWeb) {
+      return false;
+    }
+    return Platform.isAndroid;
+  }
+
+  ///是否是IOS端
+  static bool get isIOS {
+    if (kIsWeb) {
+      return false;
+    }
+    return Platform.isIOS;
   }
 
   /// 获取android设备信息
