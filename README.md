@@ -8,13 +8,16 @@
   + 小部件
     +  AppBar
     +  BottomBar
-    + 底部弹框选择器
-    + 跑马灯
+    +  Dialog
+    +  LoadingWidget、EmptyWidget、ErrorWidget
+    +  底部弹框选择器
+    +  跑马灯
     +  轮播图
     + ...
   + 页面
     + 图片预览
     + WebView
+    + 二维码/条形码扫描
     + ...
   + 工具类
     + App配置信息
@@ -136,20 +139,27 @@
   
           /// Get控制器的管理机制,默认 SmartManagement.full
           smartManagement: SmartManagement.full,
-          builder: (context, child) {
+           builder: (context, child) {
             /// android状态栏为透明沉浸式
             AppInitialize.setSystemUiOverlayStyle();
   
             /// 屏幕适配
             AppInitialize.initScreenUtil(context);
-            return FlutterEasyLoading(
-              child: GestureDetector(
-                child: child!,
+            child = GestureDetector(
+              child: child!,
   
-                /// 点击空白区域关闭键盘
-                onTap: () => AppInitialize.closeKeyBord(context),
-              ),
+              /// 点击空白区域关闭键盘
+              onTap: () => AppInitialize.closeKeyBord(context),
             );
+  
+            /// 使用 botToast 还是 flutterEasyLoading
+            if (ApplicationService.enableFlutterEasyLoading) {
+              final TransitionBuilder botToastTsBuilder = BotToastInit();
+              return botToastTsBuilder(context, child);
+            } else {
+              final TransitionBuilder easyLoadingTsBuilder = EasyLoading.init();
+              return easyLoadingTsBuilder(context, child);
+            }
           },
         ),
       );
@@ -205,6 +215,9 @@
   
     /// 是否开启清明灰主题
     static bool isOpenLucidGray = false;
+      
+    /// 是否启用flutter_easyloading（默认启用bot_toast）
+    static bool enableFlutterEasyLoading = false;
   
     /// 执行初始化操作
     Future<ApplicationService> init() async {
