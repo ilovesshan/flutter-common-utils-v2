@@ -61,6 +61,7 @@ export 'package:lpinyin/lpinyin.dart';
 export 'package:bot_toast/bot_toast.dart';
 
 /// 通用 widget
+export 'src/widgets/base_dialog_widget.dart';
 export 'src/widgets/base_state_widget.dart';
 export 'src/widgets/common_bottom_bar.dart';
 export 'src/widgets/common_bottom_selector.dart';
