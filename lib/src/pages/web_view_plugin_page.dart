@@ -51,7 +51,7 @@ class _WebviewPluginPageState extends State<WebviewPluginPage> {
         WV.JavascriptChannel(
           name: 'RouterBackInterceptorClose',
           onMessageReceived: (WV.JavascriptMessage message) {
-            /// ToastUtil.show("操作成功");
+            /// ToastUtil.showToast("操作成功");
             Get.back();
           },
         ),

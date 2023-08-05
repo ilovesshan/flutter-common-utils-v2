@@ -81,6 +81,7 @@ export 'src/conflict/conflict.dart';
 
 /// 模型/常量
 export 'src/model/common_bottom_sheet_model.dart';
+export 'src/model/base_model.dart';
 
 /// 工具包
 export 'src/utils/app_initialize.dart';

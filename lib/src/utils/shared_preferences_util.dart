@@ -12,7 +12,7 @@ class SpUtil {
   }
 
   /// 根据Key获取值
-  static String? getValue(String key, {String defaultValue = ""}) {
+  static String getValue(String key, {String defaultValue = ""}) {
     return SpUtil.sharedPreferences.getString(key) ?? defaultValue;
   }
 

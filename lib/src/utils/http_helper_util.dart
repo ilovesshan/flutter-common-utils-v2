@@ -1,8 +1,8 @@
 import 'package:common_utils_v2/common_utils_v2.dart';
 
 class HttpHelperUtil {
-  static String _baseurl = "https://475f3f65.cpolar.io";
-  static String _baseWsUrl = "ws://6d944e11.cpolar.io/ws";
+  static String _baseurl = "https://github.com/ilovesshan/flutter-common-utils-v2";
+  static String _baseWsUrl = "ws://github.com/ilovesshan/flutter-common-utils-v2/ws";
 
   late final Dio _dio = initDio();
   static final HttpHelperUtil _instance = HttpHelperUtil();
@@ -14,8 +14,8 @@ class HttpHelperUtil {
   static HttpHelperUtil get instance => _instance;
 
   static updateBaseUrl({String? baseurl, String? baseWsUrl}) {
-    _baseurl = baseurl ?? "https://common-utils-v2.io";
-    _baseWsUrl = baseWsUrl ?? "ws://common-utils-v2.io";
+    _baseurl = baseurl ?? _baseurl;
+    _baseWsUrl = baseWsUrl ?? _baseWsUrl;
   }
 
   Dio initDio() {
@@ -30,34 +30,56 @@ class HttpHelperUtil {
     return dio;
   }
 
-  Future<Map<String, dynamic>> get(String url, {queryParameters, CancelToken? cancelToken}) {
-    return _baseRequest("get", url, queryParameters: queryParameters);
+  Future<BaseModel> get(String url, {queryParameters, CancelToken? cancelToken, bool needToken = false}) {
+    return _baseRequest("get", url, queryParameters: queryParameters, needToken: needToken);
   }
 
-  Future<Map<String, dynamic>> post(String url, {queryParameters, data, CancelToken? cancelToken}) {
-    return _baseRequest("post", url, queryParameters: queryParameters, data: data);
+  Future<BaseModel> post(String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false}) {
+    return _baseRequest("post", url, queryParameters: queryParameters, data: data, needToken: needToken);
   }
 
-  Future<Map<String, dynamic>> put(String url, {queryParameters, data, CancelToken? cancelToken}) {
-    return _baseRequest("put", url, queryParameters: queryParameters, data: data);
+  Future<BaseModel> put(String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false}) {
+    return _baseRequest("put", url, queryParameters: queryParameters, data: data, needToken: needToken);
   }
 
-  Future<Map<String, dynamic>> delete(String url, {queryParameters, data, CancelToken? cancelToken}) {
-    return _baseRequest("delete", url, queryParameters: queryParameters, data: data);
+  Future<BaseModel> delete(String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false}) {
+    return _baseRequest("delete", url, queryParameters: queryParameters, data: data, needToken: needToken);
   }
 
-  Future<Map<String, dynamic>> _baseRequest(String method, String url, {queryParameters, data, CancelToken? cancelToken}) async {
-    Response<dynamic> response = await _dio.request(url, data: data, cancelToken: cancelToken, queryParameters: queryParameters, options: Options(method: method));
-    return response.data as Map<String, dynamic>;
+  Future<BaseModel> _baseRequest(String method, String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false}) async {
+    Map<String, dynamic> extra = { "needToken": needToken};
+    Response<dynamic> response = await _dio.request(url, data: data, cancelToken: cancelToken, queryParameters: queryParameters, options: Options(method: method, extra: extra));
+    BaseModel baseModel;
+    if (response.statusCode! >= 200 && response.statusCode! < 300) {
+      if (response.requestOptions.path.contains(LocationUtil.gaoDeMapBaseUrl)) {
+        /// 处理调用第三方API的响应(高德地图)
+        if(response.data != null){
+          baseModel = BaseModel(code: 200, message: "请求成功", data: response.data);
+        }else{
+          baseModel = BaseModel(code: -1, message: "HttpError");
+        }
+      }else{
+        /// 处理本项目API的响应
+        try {
+          baseModel = BaseModel.fromJson(response.data!);
+        } catch (e) {
+          Log.e(e);
+          baseModel = BaseModel(code: -1, message: "HttpError");
+        }
+      }
+    } else {
+      baseModel = BaseModel(code: -1, message: "HttpError");
+    }
+    return baseModel;
   }
 }
 
 class DioInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    // 添加token
-    if (!options.path.contains("/login")) {
-      String token = SpUtil.getValue("token") as String;
+    if(options.extra["extra"] ?? false){
+      // 添加token
+      String token = SpUtil.getValue("token");
       Map<String, String> headers = {"Authorization": "Bearer " + token};
       options.headers.addAll(headers);
     }
@@ -74,7 +96,7 @@ class DioInterceptor extends Interceptor {
 
     ///  处理调用自己项目API的异常情况
     if (response.data["code"] != 200) {
-      ToastUtil.show(response.data["message"]);
+      ToastUtil.showToast(response.data["message"]);
       return;
     }
     handler.next(response);

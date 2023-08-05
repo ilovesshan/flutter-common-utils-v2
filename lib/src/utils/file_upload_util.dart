@@ -9,8 +9,8 @@ class FileUploadUtil {
     MultipartFile image = MultipartFile.fromFileSync(filePath);
     FormData formData = FormData.fromMap({"file": image});
     try {
-      final Map<String, dynamic> response = await _helperUtil.post("/attachment", data: formData);
-      return response["data"];
+      final BaseModel response = await _helperUtil.post("/attachment", data: formData);
+      return response.data;
     } catch (e) {
       Future.error(e);
     }
@@ -24,8 +24,8 @@ class FileUploadUtil {
       formData.files.add(mapEntry);
     }
     try {
-      final Map<String, dynamic> response = await _helperUtil.post("/attachment", data: formData);
-      return response["data"];
+      final BaseModel response = await _helperUtil.post("/attachment", data: formData);
+      return response.data;
     } catch (e) {
       Future.error(e);
     }
@@ -34,8 +34,8 @@ class FileUploadUtil {
   /// 删除文件
   static Future<dynamic> deleteFile({required String id}) async {
     try {
-      final Map<String, dynamic> response = await _helperUtil.delete("/attachment", queryParameters: {"id": id});
-      return response["data"];
+      final BaseModel response = await _helperUtil.delete("/attachment", queryParameters: {"id": id});
+      return response.data;
     } catch (e) {
       Future.error(e);
     }

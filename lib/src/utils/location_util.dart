@@ -55,11 +55,11 @@ class LocationUtil {
   static Future<dynamic> getAddressByLatLng({required double latitude, required longitude, required String webKey}) async {
     final requestPath = "$getAddressLatLngPath?key=$webKey&output=json&location=$longitude,$latitude&radius=1000&extensions=all";
     try {
-      final result = await HttpHelperUtil.instance.get(requestPath);
-      if (result != null && TextUtil.isNotEmpty(result["regeocode"].toString()) && result["status"].toString() == "1") {
-        return result["regeocode"];
+      final BaseModel baseModel = await HttpHelperUtil.instance.get(requestPath);
+      if (baseModel.data != null && TextUtil.isNotEmpty(baseModel.data["regeocode"].toString()) && baseModel.data["status"].toString() == "1") {
+        return baseModel.data["regeocode"];
       } else {
-        Log.e(result);
+        Log.e(baseModel.toJson());
       }
     } catch (e) {
       Log.e(e);
@@ -71,11 +71,11 @@ class LocationUtil {
   static Future<dynamic> getLatLngByAddress({required String address, required String webKey, String? city}) async {
     final requestPath = "$geoPath?key=$webKey&address=$address&output=json";
     try {
-      final result = await HttpHelperUtil.instance.get(requestPath);
-      if (result != null && TextUtil.isNotEmpty(result["geocodes"].toString()) && result["status"].toString() == "1") {
-        return result["geocodes"];
+      final BaseModel baseModel = await HttpHelperUtil.instance.get(requestPath);
+      if (baseModel.data != null && TextUtil.isNotEmpty(baseModel.data["regeocode"].toString()) && baseModel.data["status"].toString() == "1") {
+        return baseModel.data["regeocode"];
       } else {
-        Log.e(result);
+        Log.e(baseModel.toJson());
       }
     } catch (e) {
       Log.e(e);
@@ -87,11 +87,11 @@ class LocationUtil {
   static Future<dynamic> getPlaceByText({required String keywords, required String webKey, String? city, int offset = 20, int page = 1}) async {
     final requestPath = "$getPlaceByTextPath?key=$webKey&keywords=$keywords&city=$city&output=json&offset=$offset&page=$page&extensions=all";
     try {
-      final result = await HttpHelperUtil.instance.get(requestPath);
-      if (result != null && TextUtil.isNotEmpty(result["geocodes"].toString()) && result["status"].toString() == "1") {
-        return result["geocodes"];
+      final BaseModel baseModel = await HttpHelperUtil.instance.get(requestPath);
+      if (baseModel.data != null && TextUtil.isNotEmpty(baseModel.data["regeocode"].toString()) && baseModel.data["status"].toString() == "1") {
+        return baseModel.data["regeocode"];
       } else {
-        Log.e(result);
+        Log.e(baseModel.toJson());
       }
     } catch (e) {
       Log.e(e);
@@ -103,11 +103,11 @@ class LocationUtil {
   static Future<dynamic> getAroundPlaceByText({required String location, required String webKey, String? city, int radius = 10000}) async {
     final requestPath = "$getAroundPlaceByTextPath?key=$webKey&location=$location&&radius=$radius";
     try {
-      final result = await HttpHelperUtil.instance.get(requestPath);
-      if (result != null && TextUtil.isNotEmpty(result["pois"].toString()) && result["status"].toString() == "1") {
-        return result["pois"];
+      final BaseModel baseModel = await HttpHelperUtil.instance.get(requestPath);
+      if (baseModel.data != null && TextUtil.isNotEmpty(baseModel.data["pois"].toString()) && baseModel.data["status"].toString() == "1") {
+        return baseModel.data["pois"];
       } else {
-        Log.e(result);
+        Log.e(baseModel.toJson());
       }
     } catch (e) {
       Log.e(e);
@@ -118,14 +118,14 @@ class LocationUtil {
   static Future<void> _checkGeolocatorPermission() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      ToastUtil.show("当前设备位置服务不可用");
+      ToastUtil.showToast("当前设备位置服务不可用");
       Log.d("Location services are disabled.");
     }
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        ToastUtil.show("定位服务权限已被禁用,即将跳转设置中心");
+        ToastUtil.showToast("定位服务权限已被禁用,即将跳转设置中心");
         Future.delayed(const Duration(seconds: 1), () async {
           await Geolocator.openAppSettings();
         });
@@ -133,7 +133,7 @@ class LocationUtil {
       }
     }
     if (permission == LocationPermission.deniedForever) {
-      ToastUtil.show("定位服务权限已被禁用,即将跳转设置中心");
+      ToastUtil.showToast("定位服务权限已被禁用,即将跳转设置中心");
       Future.delayed(const Duration(seconds: 1), () async {
         await Geolocator.openAppSettings();
       });

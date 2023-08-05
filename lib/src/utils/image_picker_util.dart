@@ -11,7 +11,7 @@ class ImagePickerUtil {
       if (image != null && image.path.isNotEmpty) {
         path = image.path;
       } else {
-        ToastUtil.show("取消");
+        ToastUtil.showToast("取消");
       }
     } catch (e) {
       if (e is PlatformException) {
@@ -20,11 +20,11 @@ class ImagePickerUtil {
           PermissionUtil.requestCameraPermission();
         } else {
           printLog(StackTrace.current, e.toString());
-          ToastUtil.show("取消");
+          ToastUtil.showToast("取消");
         }
       } else {
         printLog(StackTrace.current, e.toString());
-        ToastUtil.show("取消");
+        ToastUtil.showToast("取消");
       }
     }
     return path;
@@ -37,13 +37,15 @@ class ImagePickerUtil {
     try {
       List<PickedFile>? list = await ImagePicker.platform.pickMultiImage();
       if (list != null && list.isNotEmpty) {
-        list.forEach((item) => pathList.add(item.path));
+        for (var item in list) {
+          pathList.add(item.path);
+        }
       } else {
-        ToastUtil.show("取消");
+        ToastUtil.showToast("取消");
       }
     } catch (e) {
       printLog(StackTrace.current, e.toString());
-      ToastUtil.show("取消");
+      ToastUtil.showToast("取消");
     }
     return pathList;
   }

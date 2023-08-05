@@ -50,10 +50,10 @@ class _ScanKitPageState extends State<ScanKitPage> {
                   if(isFirstLoadedResult){
                     Navigator.of(context).pop(result);
                     isFirstLoadedResult = false;
-                  ToastUtil.show("扫描成功");
+                  ToastUtil.showToast("扫描成功");
                   }
                 }).onError((error){
-                ToastUtil.show("异常：${error.toString()}");
+                ToastUtil.showToast("异常：${error.toString()}");
                 });
               },
               continuouslyScan: false,
