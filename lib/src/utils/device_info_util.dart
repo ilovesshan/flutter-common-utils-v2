@@ -11,7 +11,7 @@ class DeviceInfoUtil {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
   /// 获取运行环境
-  Future<RunTimePlatform> getRunTimePlatform() async {
+  static Future<RunTimePlatform> getRunTimePlatform() async {
     try {
       if (kIsWeb) {
         return RunTimePlatform.WEBBROWSER;
@@ -63,32 +63,32 @@ class DeviceInfoUtil {
   }
 
   /// 获取android设备信息
-  Future<AndroidDeviceInfo> getAndroidDeviceInfo() async {
+  static Future<AndroidDeviceInfo> getAndroidDeviceInfo() async {
     return await deviceInfoPlugin.androidInfo;
   }
 
   /// 获取ios设备信息
-  Future<IosDeviceInfo> getIosDeviceInfo() async {
+  static Future<IosDeviceInfo> getIosDeviceInfo() async {
     return await deviceInfoPlugin.iosInfo;
   }
 
   /// 获取linux设备信息
-  Future<LinuxDeviceInfo> getLinuxDeviceInfo() async {
+  static Future<LinuxDeviceInfo> getLinuxDeviceInfo() async {
     return await deviceInfoPlugin.linuxInfo;
   }
 
   /// 获取macOs设备信息
-  Future<MacOsDeviceInfo> getMacOsDeviceInfo() async {
+  static Future<MacOsDeviceInfo> getMacOsDeviceInfo() async {
     return await deviceInfoPlugin.macOsInfo;
   }
 
   /// 获取windows设备信息
-  Future<WindowsDeviceInfo> getWindowsDeviceInfo() async {
+  static Future<WindowsDeviceInfo> getWindowsDeviceInfo() async {
     return await deviceInfoPlugin.windowsInfo;
   }
 
   /// 获取webBrowser设备信息
-  Future<WebBrowserInfo> getWebBrowserInfo() async {
+  static Future<WebBrowserInfo> getWebBrowserInfo() async {
     return await deviceInfoPlugin.webBrowserInfo;
   }
 }
