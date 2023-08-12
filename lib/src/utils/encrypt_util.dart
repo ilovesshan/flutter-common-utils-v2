@@ -1,4 +1,5 @@
-import 'dart:convert';
+import 'dart:convert' as convert;
+import 'dart:io';
 import 'package:encrypt/encrypt.dart';
 import 'package:crypto/crypto.dart';
 import 'package:convert/convert.dart';
@@ -33,29 +34,42 @@ class EncryptUtil {
 
   /// md5 加密
   static String encodeMd5(String data) {
-    var content = const Utf8Encoder().convert(data);
+    var content = const convert.Utf8Encoder().convert(data);
     var digest = md5.convert(content);
     return hex.encode(digest.bytes);
   }
 
   /// md5 解密
   static String decodeMd5(String data) {
-    var content = const Utf8Encoder().convert(data);
+    var content = const convert.Utf8Encoder().convert(data);
     var digest = md5.convert(content);
     return hex.encode(digest.bytes);
   }
 
   /// Base64加密
   static String encodeBase64(String data) {
-    var content = utf8.encode(data);
-    var digest = base64Encode(content);
+    var content = convert.utf8.encode(data);
+    var digest = convert.base64Encode(content);
     return digest;
   }
 
   /// Base64解密
   static String decodeBase64(String data) {
-    List<int> bytes = base64Decode(data);
-    String result = utf8.decode(bytes);
+    List<int> bytes = convert.base64Decode(data);
+    String result = convert.utf8.decode(bytes);
     return result;
+  }
+
+  /// 通过图片路径将图片转换成Base64字符串
+  static Future<dynamic> image2Base64(String path) async {
+    File file = File(path);
+    List<int> imageBytes = await file.readAsBytes();
+    return convert.base64Encode(imageBytes);
+  }
+
+  /// 将图片文件转换成Base64字符串
+  static Future<dynamic> imageFile2Base64(File file) async {
+    List<int> imageBytes = await file.readAsBytes();
+    return convert.base64Encode(imageBytes);
   }
 }
