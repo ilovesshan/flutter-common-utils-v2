@@ -80,6 +80,7 @@ export 'src/pages/web_view_plugin_page.dart';
 export 'src/conflict/conflict.dart';
 
 /// 模型/常量
+export 'src/constants/http_code.dart';
 export 'src/model/common_bottom_sheet_model.dart';
 export 'src/model/base_model.dart';
 
