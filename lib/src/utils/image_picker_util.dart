@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'dart:html' as html;
+// import 'dart:html' as html;
 import 'package:common_utils_v2/common_utils_v2.dart';
 
 class ImagePickerUtil {
@@ -51,18 +51,18 @@ class ImagePickerUtil {
   }
 
   /// 图片选择(WEB/H5)
-  static pickImageForWeb({required Function(List<html.File> files) onResult, String accept = "image/*", bool multiple = false}) {
-    html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-    uploadInput.accept = accept;
-    uploadInput.multiple = multiple;
-    uploadInput.draggable = true;
-    uploadInput.click();
-    uploadInput.onChange.listen((event) {
-      if (uploadInput.files != null && uploadInput.files!.isNotEmpty) {
-        onResult(uploadInput.files!);
-      } else {
-        onResult([]);
-      }
-    });
-  }
+  // static pickImageForWeb({required Function(List<html.File> files) onResult, String accept = "image/*", bool multiple = false}) {
+  //   html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+  //   uploadInput.accept = accept;
+  //   uploadInput.multiple = multiple;
+  //   uploadInput.draggable = true;
+  //   uploadInput.click();
+  //   uploadInput.onChange.listen((event) {
+  //     if (uploadInput.files != null && uploadInput.files!.isNotEmpty) {
+  //       onResult(uploadInput.files!);
+  //     } else {
+  //       onResult([]);
+  //     }
+  //   });
+  // }
 }
