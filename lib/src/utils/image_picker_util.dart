@@ -1,9 +1,10 @@
 import 'package:flutter/services.dart';
+import 'dart:html' as html;
 import 'package:common_utils_v2/common_utils_v2.dart';
 
 class ImagePickerUtil {
-  /// 图片选择 单选
-  static Future<String> pick({bool isCamera = true}) async {
+  /// 图片选择 单选(APP)
+  static Future<String> pickSing({bool isCamera = true}) async {
     var path = "";
 
     try {
@@ -30,10 +31,9 @@ class ImagePickerUtil {
     return path;
   }
 
-  /// 图片选择 多选
+  /// 图片选择 多选(APP)
   static Future<List<String>> pickMulti() async {
     final List<String> pathList = [];
-
     try {
       List<PickedFile>? list = await ImagePicker.platform.pickMultiImage();
       if (list != null && list.isNotEmpty) {
@@ -48,5 +48,21 @@ class ImagePickerUtil {
       ToastUtil.showToast("取消");
     }
     return pathList;
+  }
+
+  /// 图片选择(WEB/H5)
+  static pickImageForWeb({required Function(List<html.File> files) onResult, String accept = "image/*", bool multiple = false}) {
+    html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+    uploadInput.accept = accept;
+    uploadInput.multiple = multiple;
+    uploadInput.draggable = true;
+    uploadInput.click();
+    uploadInput.onChange.listen((event) {
+      if (uploadInput.files != null && uploadInput.files!.isNotEmpty) {
+        onResult(uploadInput.files!);
+      } else {
+        onResult([]);
+      }
+    });
   }
 }
