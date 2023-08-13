@@ -108,6 +108,8 @@ dependencies:
   username: ^0.2.3
   # 汉字转拼音
   lpinyin: ^2.0.3
+  # 时间库
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

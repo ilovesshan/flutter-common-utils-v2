@@ -59,6 +59,7 @@ export 'package:video_player/video_player.dart';
 export 'package:username/username.dart';
 export 'package:lpinyin/lpinyin.dart';
 export 'package:bot_toast/bot_toast.dart';
+export 'package:intl/intl.dart';
 
 /// 通用 widget
 export 'src/widgets/base_dialog_widget.dart';
