@@ -110,6 +110,8 @@ dependencies:
   lpinyin: ^2.0.3
   # 时间库
   intl: ^0.17.0
+  # Dart后台任务调度
+  workmanager: ^0.4.1
 
 dev_dependencies:
   flutter_test:

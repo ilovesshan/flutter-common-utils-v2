@@ -60,6 +60,7 @@ export 'package:username/username.dart';
 export 'package:lpinyin/lpinyin.dart';
 export 'package:bot_toast/bot_toast.dart';
 export 'package:intl/intl.dart';
+export 'package:workmanager/workmanager.dart';
 
 /// 通用 widget
 export 'src/widgets/base_dialog_widget.dart';

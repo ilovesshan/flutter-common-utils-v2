@@ -215,12 +215,16 @@
   
     /// 是否开启清明灰主题
     static bool isOpenLucidGray = false;
-      
+  
     /// 是否启用flutter_easyloading（默认启用bot_toast）
     static bool enableFlutterEasyLoading = false;
   
     /// 执行初始化操作
     Future<ApplicationService> init() async {
+      
+      /// 启动Dart后台任务调度(可选)
+      AppTask.registerTask();
+  
       /// 初始化 SharedPreferences(可选)
       await SpUtil.initSharedPreferences();
   
@@ -228,13 +232,70 @@
       await NotificationUtil.initNotification(notificationCallback: (String? payload) async {
         Log.e("current notification clicked result payload: $payload");
       });
-        
+  
+      /// 初始化geolocator位置服务（可选）
+      if (Platform.isAndroid) {
+        GeolocatorAndroid.registerWith();
+      }
+  
       /// 这里可以做本地业务判断(今天是否是清明节)
       await Future.delayed(const Duration(milliseconds: 500), () => isOpenLucidGray = false);
   
       return this;
     }
   }
+  ```
+  
+  
+  
++ AppTask(可选，仅供参考)
+
+  ```dart
+  import 'package:common_utils_v2/common_utils_v2.dart';
+  
+  void callbackDispatcher() {
+    Workmanager().executeTask((task, inputData) {
+      Log.e("task == $task, inputData == $inputData");
+      switch (task) {
+        case "simpleTask":
+          Log.d("simpleTask execute...");
+          NotificationUtil.notifyMessage(title: inputData!["title"], body: inputData["body"]);
+          break;
+        case "PeriodicTask":
+          Log.d("PeriodicTask execute...");
+          NotificationUtil.notifyMessage(title: inputData!["title"], body: inputData["body"]);
+          break;
+      }
+      return Future.value(true);
+    });
+  }
+  
+  class AppTask {
+    static void registerTask() {
+      String curDateText = DateFormat("yyyy年MM月dd日 hh时mm分ss秒").format(DateTime.now());
+  
+      Workmanager().initialize(
+        /// 该回调函数需要是一个顶级函数
+        callbackDispatcher,
+  
+        /// 开启debug调式模式
+        isInDebugMode: true,
+      );
+  
+      /// 注册一次性任务
+      Workmanager().registerOneOffTask("simpleTaskId", "simpleTask", inputData: {
+        "title": "Flutter 任务调度",
+        "body": "$curDateText 任务调度（simpleTask）",
+      });
+  
+      /// 注册周期性任务（默认15分钟执行一次）
+      Workmanager().registerPeriodicTask("PeriodicTaskId", "PeriodicTask", inputData: {
+        "title": "Flutter 任务调度",
+        "body": "$curDateText 任务调度（PeriodicTask）",
+      });
+    }
+  }
+  
   ```
   
   
