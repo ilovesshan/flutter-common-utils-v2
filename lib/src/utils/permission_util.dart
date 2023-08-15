@@ -17,113 +17,116 @@ class PermissionUtil {
     ].request();
 
     if (await Permission.camera.isGranted) {
-      printLog(StackTrace.current, "相机权限申请通过");
+      Log.d(StackTrace.current, "相机权限申请通过");
     } else {
-      printLog(StackTrace.current, "相机权限申请失败");
+      Log.d(StackTrace.current, "相机权限申请失败");
     }
 
     if (await Permission.photos.isGranted) {
-      printLog(StackTrace.current, "照片权限申请通过");
+      Log.d(StackTrace.current, "照片权限申请通过");
     } else {
-      printLog(StackTrace.current, "照片权限申请失败");
+      Log.d(StackTrace.current, "照片权限申请失败");
     }
 
     if (await Permission.speech.isGranted) {
-      printLog(StackTrace.current, "语音权限申请通过");
+      Log.d(StackTrace.current, "语音权限申请通过");
     } else {
-      printLog(StackTrace.current, "语音权限申请失败");
+      Log.d(StackTrace.current, "语音权限申请失败");
     }
 
     if (await Permission.microphone.isGranted) {
-      printLog(StackTrace.current, "麦克风权限申请通过");
+      Log.d(StackTrace.current, "麦克风权限申请通过");
     } else {
-      printLog(StackTrace.current, "麦克风权限申请失败");
+      Log.d(StackTrace.current, "麦克风权限申请失败");
     }
 
     if (await Permission.storage.isGranted) {
-      printLog(StackTrace.current, "文件权限申请通过");
+      Log.d(StackTrace.current, "文件权限申请通过");
     } else {
-      printLog(StackTrace.current, "文件权限申请失败");
+      Log.d(StackTrace.current, "文件权限申请失败");
     }
 
     if (await Permission.location.isGranted) {
-      printLog(StackTrace.current, "定位权限申请通过");
+      Log.d(StackTrace.current, "定位权限申请通过");
     } else {
-      printLog(StackTrace.current, "定位权限申请失败");
+      Log.d(StackTrace.current, "定位权限申请失败");
     }
 
     if (await Permission.phone.isGranted) {
-      printLog(StackTrace.current, "手机权限申请通过");
+      Log.d(StackTrace.current, "手机权限申请通过");
     } else {
-      printLog(StackTrace.current, "手机权限申请失败");
+      Log.d(StackTrace.current, "手机权限申请失败");
     }
 
     if (await Permission.notification.isGranted) {
-      printLog(StackTrace.current, "通知权限申请通过");
+      Log.d(StackTrace.current, "通知权限申请通过");
     } else {
-      printLog(StackTrace.current, "通知权限申请失败");
+      Log.d(StackTrace.current, "通知权限申请失败");
     }
   }
 
   /// 申请权限
-  static Future<void> requestPermission({required List<Permission> permissions, required List<String> permissionsDescribes}) async {
+  static Future<bool> requestPermission({required List<Permission> permissions, required List<String> permissionsDescribes}) async {
+    bool isGranted = true;
     await permissions.request();
-    for (var i = 0; i <= permissions.length; i++) {
+    for (var i = 0; i < permissions.length; i++) {
       /// 第一次申请被拒绝 (true)
-      bool isDenied = await (permissions[i] as Permission).isDenied;
+      bool isDenied = await (permissions[i]).isDenied;
 
       /// 第二次申请被拒绝 (true)
-      bool isPermanentlyDenied = await (permissions[i] as Permission).isPermanentlyDenied;
+      bool isPermanentlyDenied = await (permissions[i]).isPermanentlyDenied;
 
       /// 已授权 (true)
-      bool isGranted = await (permissions[i] as Permission).isGranted;
+      bool isGranted = await (permissions[i]).isGranted;
 
       if (isGranted) {
         printLog(StackTrace.current, "${permissions[i]}权限已授权");
       } else if (isDenied || isPermanentlyDenied) {
+        isGranted = false;
         ToastUtil.showToast("为保证功能正常使用，请在设置中为app开启${permissions[i]}权限");
       }
     }
+    return isGranted;
   }
 
   /// 相机权限
-  static Future<void> requestCameraPermission() async {
-    await requestPermission(permissions: [Permission.camera], permissionsDescribes: ["相机"]);
+  static Future<bool> requestCameraPermission() async {
+    return await requestPermission(permissions: [Permission.camera], permissionsDescribes: ["相机"]);
   }
 
   /// 照片/存储权限
-  static Future<void> requestPhotosPermission() async {
-    await requestPermission(permissions: [Permission.photos], permissionsDescribes: ["照片/存储"]);
+  static Future<bool> requestPhotosPermission() async {
+    return await requestPermission(permissions: [Permission.photos], permissionsDescribes: ["照片/存储"]);
   }
 
   ///  麦克风
-  static Future<void> requestMicrophonePermission() async {
-    await requestPermission(permissions: [Permission.microphone], permissionsDescribes: ["麦克风"]);
+  static Future<bool> requestMicrophonePermission() async {
+    return await requestPermission(permissions: [Permission.microphone], permissionsDescribes: ["麦克风"]);
   }
 
   /// 语音
-  static Future<void> requestSpeechPermission() async {
-    await requestPermission(permissions: [Permission.speech], permissionsDescribes: ["语音"]);
+  static Future<bool> requestSpeechPermission() async {
+    return await requestPermission(permissions: [Permission.speech], permissionsDescribes: ["语音"]);
   }
 
   /// 存储/文件权限
-  static Future<void> requestStoragePermission() async {
-    await requestPermission(permissions: [Permission.storage], permissionsDescribes: ["文件/存储"]);
+  static Future<bool> requestStoragePermission() async {
+    return await requestPermission(permissions: [Permission.storage], permissionsDescribes: ["文件/存储"]);
   }
 
   /// 定位/位置信息权限
-  static Future<void> requestLocationPermission() async {
-    await requestPermission(permissions: [Permission.location], permissionsDescribes: ["定位/位置信息"]);
+  static Future<bool> requestLocationPermission() async {
+    return await requestPermission(permissions: [Permission.location], permissionsDescribes: ["定位/位置信息"]);
   }
 
   /// 手机系统权限
-  static Future<void> requestPhonePermission() async {
-    await requestPermission(permissions: [Permission.phone], permissionsDescribes: ["手机系统"]);
+  static Future<bool> requestPhonePermission() async {
+    return await requestPermission(permissions: [Permission.phone], permissionsDescribes: ["手机系统"]);
   }
 
   /// 通知权限
-  static Future<void> requestNotificationPermission() async {
-    await requestPermission(permissions: [Permission.notification], permissionsDescribes: ["通知"]);
+  static Future<bool> requestNotificationPermission() async {
+    return await requestPermission(permissions: [Permission.notification], permissionsDescribes: ["通知"]);
   }
 
   ///IOS用的跟踪透明度权限申请
