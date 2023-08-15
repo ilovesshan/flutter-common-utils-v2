@@ -112,7 +112,8 @@ dependencies:
   intl: ^0.17.0
   # Dart后台任务调度
   workmanager: ^0.4.1
-
+  # HTML解析
+  flutter_widget_from_html_core: ^0.8.5+3
 dev_dependencies:
   flutter_test:
     sdk: flutter
