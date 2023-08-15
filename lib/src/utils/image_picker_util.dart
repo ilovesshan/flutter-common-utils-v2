@@ -20,11 +20,11 @@ class ImagePickerUtil {
           /// 相机权限被拒绝了
           PermissionUtil.requestCameraPermission();
         } else {
-          printLog(StackTrace.current, e.toString());
+          Log.e(StackTrace.current, e.toString());
           ToastUtil.showToast("取消");
         }
       } else {
-        printLog(StackTrace.current, e.toString());
+        Log.e(StackTrace.current, e.toString());
         ToastUtil.showToast("取消");
       }
     }
@@ -44,7 +44,7 @@ class ImagePickerUtil {
         ToastUtil.showToast("取消");
       }
     } catch (e) {
-      printLog(StackTrace.current, e.toString());
+      Log.e(StackTrace.current, e.toString());
       ToastUtil.showToast("取消");
     }
     return pathList;

@@ -80,7 +80,7 @@ class PermissionUtil {
       bool isGranted = await (permissions[i]).isGranted;
 
       if (isGranted) {
-        printLog(StackTrace.current, "${permissions[i]}权限已授权");
+        Log.d(StackTrace.current, "${permissions[i]}权限已授权");
       } else if (isDenied || isPermanentlyDenied) {
         isGranted = false;
         ToastUtil.showToast("为保证功能正常使用，请在设置中为app开启${permissions[i]}权限");
