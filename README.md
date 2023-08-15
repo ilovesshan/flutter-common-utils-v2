@@ -394,6 +394,88 @@
 
 ### 4、扩展配置
 
++ 清单文件中常用的权限列表
+
+  ```xml
+  <!-- 网络访问权限 -->
+  <uses-permission android:name="android.permission.INTERNET" />
+  
+  <!-- 存储权限 -->
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+  
+  <!-- 允许应用程序访问设备的相机，用于拍照和录制视频 -->
+  <uses-permission android:name="android.permission.CAMERA" />
+  <!-- 允许应用程序读取设备上的照片、视频和其他媒体文件 -->
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <!-- 允许应用程序将照片、视频和其他媒体文件保存到设备的外部存储 -->
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <!-- 允许应用程序读取设备上的音频文件，用于播放音乐或其他音频操作 -->
+  <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+  <!-- 允许应用程序将音频文件保存到设备上，例如录制音频或保存音乐文件 -->
+  <uses-permission android:name="android.permission.WRITE_MEDIA_AUDIO" />
+  <!-- 允许应用程序读取设备上的图像文件，用于显示照片或进行图像处理 -->
+  <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+  <!-- 允许应用程序将图像文件保存到设备上，例如拍照或保存图像文件 -->
+  <uses-permission android:name="android.permission.WRITE_MEDIA_IMAGES" />
+  <!-- 允许应用程序读取设备上的视频文件，用于播放视频或其他视频操作 -->
+  <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+  <!-- 允许应用程序将视频文件保存到设备上，例如录制视频或保存视频文件 -->
+  <uses-permission android:name="android.permission.WRITE_MEDIA_VIDEO" />
+  
+  <!-- 定位权限 -->
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 近似定位权限 -->
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 精准定位权限 -->
+  <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- 后台定位权限 api29，android10新增 -->
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 允许应用程序在前台运行服务，并显示相关通知 -->
+  
+  <!-- 电话权限 -->
+  <uses-permission android:name="android.permission.CALL_PHONE" />
+  <uses-permission android:name="android.permission.READ_PHONE_STATE" />  <!-- 允许应用程序读取手机状态和身份信息 -->
+  
+  <!-- 联系人权限 -->
+  <uses-permission android:name="android.permission.READ_CONTACTS" />  <!-- 允许应用程序读取联系人信息 -->
+  <uses-permission android:name="android.permission.WRITE_CONTACTS" />  <!-- 允许应用程序写入联系人信息 -->
+  
+  <!-- 短信权限 -->
+  <uses-permission android:name="android.permission.SEND_SMS" />
+  
+  <!-- 麦克风权限 -->
+  <uses-permission android:name="android.permission.RECORD_AUDIO" />
+  
+  <!-- 传感器权限 -->
+  <uses-permission android:name="android.permission.BODY_SENSORS" />  <!-- 允许应用程序访问身体传感器（如心率监测器） -->
+  
+  <!-- 日历权限 -->
+  <uses-permission android:name="android.permission.READ_CALENDAR" />  <!-- 允许应用程序读取日历事件 -->
+  <uses-permission android:name="android.permission.WRITE_CALENDAR" />  <!-- 允许应用程序写入日历事件 -->
+  
+  <!-- 语音识别权限 -->
+  <uses-permission android:name="android.permission.RECORD_AUDIO" />  <!-- 允许应用程序访问麦克风进行语音录制和识别 -->
+  
+  <!-- 通知权限 -->
+  <uses-permission android:name="android.permission.VIBRATE" />  <!-- 允许应用程序控制手机振动 -->
+  <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />  <!-- 允许应用程序访问通知策略 -->
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>  <!-- 适配Android13 通知权限-->
+  
+  <!-- 蓝牙权限 -->
+  <uses-permission android:name="android.permission.BLUETOOTH" />  <!-- 允许应用程序访问蓝牙设备 -->
+  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />  <!-- 允许应用程序管理蓝牙设备 -->
+  ```
+  
+  + 声明文件存储的读写访问权限时，请注意：在 Android 10（API 级别 29）及更高版本中，如果您的应用程序需要访问外部存储器上的文件，还需要在清单文件的 `application` 标签中添加以下代码：
+  
+    ```xml
+    <application
+        ...
+        android:requestLegacyExternalStorage="true">
+        ...
+    </application>
+    ```
+  
+    
+  
 + 如果项目下载依赖很慢，可以尝试更换下载源。
 
   ```groovy
