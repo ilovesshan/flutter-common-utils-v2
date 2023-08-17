@@ -62,6 +62,7 @@ export 'package:bot_toast/bot_toast.dart';
 export 'package:intl/intl.dart';
 export 'package:workmanager/workmanager.dart';
 export 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart' hide ImageSource;
+export 'package:package_info_plus/package_info_plus.dart';
 
 /// 通用 widget
 export 'src/widgets/base_dialog_widget.dart';
@@ -88,8 +89,7 @@ export 'src/model/common_bottom_sheet_model.dart';
 export 'src/model/base_model.dart';
 
 /// 工具包
-export 'src/utils/app_initialize.dart';
-export 'src/utils/app_status_bar_util.dart';
+export 'src/utils/app_util.dart';
 export 'src/utils/color_util.dart';
 export 'src/utils/connectivity_util.dart';
 export 'src/utils/device_info_util.dart';

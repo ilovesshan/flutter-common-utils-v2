@@ -24,22 +24,25 @@
     + 颜色转换工具
     + 网络状态检测
     + 设备信息获取
+    + 常用加解密工具（BASE64、MD5、RSA）
     + 基于发布订阅模式的EventBus
-    + 图片压缩工具封装
+    + 文件压缩工具
     + 文件上传/文件下载
     + Dio网络请求封装
     + 图片/拍摄选择器
     + 处理地理位置信息（高德地图）
     + 日志输出
     + 调用三方地图导航（高德、百度、腾讯）
+    + Notification 本地通知
+    + APP信息获取
     + 权限申请
-    + 常用正则表达式工具封装
     + 扫二维码/条形码
     + 音频录制/播放
-    + RSA/MD5/Base64加解密工具
-    + SharedPreferences封装
-    + Sqlite工具封装
-    + 字符串常用API封装
+    + 常用正则表达式工具
+    + SharedPreferences工具
+    + SqliteHelper工具
+    + 字节转换工具（B/KB/MB/GB）
+    + 字符串常用API
     + 时间日期转换
     + Toast轻提示
     + APP更新
@@ -87,12 +90,6 @@
 + 在项目入口文件main.dart进行配置（可以直接copy，再按需求修改即可）
 
   ```dart
-  import 'dart:async';
-  import 'package:flutter/foundation.dart';
-  import 'package:flutter/material.dart';
-  
-  import 'package:common_utils_v2/common_utils_v2.dart';
-  
   void main() async {
     WidgetsFlutterBinding.ensureInitialized();
   
@@ -125,6 +122,8 @@
           /// APP主题配色方案
           theme: AppInitialize.appTheme("2196f3"),
   
+          debugShowCheckedModeBanner: false,
+  
           /// 使用Get提供的路由解决方案(也可自行选择其他三方库)
           initialRoute: AppRouter.initRoute,
           getPages: AppRouter.routes(),
@@ -135,11 +134,18 @@
           navigatorKey: ApplicationService.navigatorKey,
   
           /// 如果未使用GetMaterialApp ,则可以通过navigatorObservers来观察路由变化
-          navigatorObservers: [ApplicationController.routeObserver],
+          navigatorObservers: [ApplicationController.routeObserver, BotToastNavigatorObserver()],
   
           /// Get控制器的管理机制,默认 SmartManagement.full
           smartManagement: SmartManagement.full,
-           builder: (context, child) {
+  
+          /// 国际化
+          locale: I18nService.locale,
+          fallbackLocale: I18nService.fallbackLocale,
+          translations: I18nService(),
+          localizationsDelegates: AppInitialize.internationalization(),
+  
+          builder: (context, child) {
             /// android状态栏为透明沉浸式
             AppInitialize.setSystemUiOverlayStyle();
   
@@ -153,7 +159,7 @@
             );
   
             /// 使用 botToast 还是 flutterEasyLoading
-            if (ApplicationService.enableFlutterEasyLoading) {
+            if (!ApplicationService.enableFlutterEasyLoading) {
               final TransitionBuilder botToastTsBuilder = BotToastInit();
               return botToastTsBuilder(context, child);
             } else {
@@ -166,9 +172,9 @@
     }
   }
   ```
-
   
-
+  
+  
 + ApplicationController(可选，仅供参考)
 
   ```dart
@@ -244,6 +250,43 @@
       return this;
     }
   }
+  ```
+  
+  
+  
++ I18nService(可选，仅供参考)
+
+  ```dart
+  import 'package:flutter/material.dart';
+  import 'package:common_utils_v2/common_utils_v2.dart';
+  
+  class I18nService extends Translations {
+    /// 默认展示本地语言
+    static const locale = Locale('zh', 'CN');
+  
+    /// 语言选择无效时备用语言
+    static const fallbackLocale = Locale('zh', 'CN');
+  
+    /// 需要国际化的文字key
+    static const String mainText = "mainText";
+    static const String language = "language";
+  
+    @override
+    Map<String, Map<String, String>> get keys => {
+          /// 配置中文
+          'zh_CN': {
+            I18nService.mainText: "你好，世界~",
+            I18nService.language: "中文",
+          },
+  
+          /// 配置英文
+          'en_US': {
+            I18nService.mainText: "hello world~",
+            I18nService.language: "english",
+          },
+        };
+  }
+  
   ```
   
   
