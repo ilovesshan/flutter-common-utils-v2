@@ -552,6 +552,68 @@
 
   
 
++ 关于.jks文件的生成方式以及配置
+
+  + 生成kjs文件
+
+    ```
+    keytool -genkey -v -keystore /D:/keys/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key
+    ```
+  
+    
+  
+  + 查看SHA值
+  
+    ```
+    keytool -v -list -keystore /D:/keys/key.jks
+    ```
+  
+    
+  
+  + 在项目根目录下新建key.properties文件
+  
+    ```properties
+    storePassword=123456
+    keyPassword=123456
+    keyAlias=key
+    storeFile=D:/keys/key.jks
+    ```
+  
+    
+  
+  + build.grade（模块级别 ） 配置kjs
+  
+    ```groovy
+    // 读取 key.properties
+    def keystorePropertiesFile = rootProject.file("key.properties")
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    
+    
+    android {
+        ...
+        signingConfigs {
+            release {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
+            debug {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
+        }
+        ...
+    }
+    ```
+  
+    
+  
+  
+  
 + 项目集成了 flutter闪屏页插件，下面列举简单用法，具体用法请参考：[flutter_native_splash]( https://pub.dev/packages/flutter_native_splash)
 
   + 自定义闪屏页配置并将其添加到项目的pubspec.yaml文件中或放置在名为的根项目文件夹中的新文件中flutter_native_splash.yaml。
@@ -561,25 +623,21 @@
       background_image: "assets/launch_image.png"
     ```
 
-    
-
-
   + 执行创建闪屏页命令（ios、android自动生成相关资源）
-
+  
     ```dart
     flutter pub run flutter_native_splash:create
     ```
-
+  
     
-
-
+  
   + 恢复到默认状态
-
+  
     ```dart
     flutter pub run flutter_native_splash:remove
     ```
-
-
+  
+    
 
 
 + 关于调用LocationUtil工具类来获取/处理地理位置等信息时，需要在清单文件中声明对应权限并且进行初始化
