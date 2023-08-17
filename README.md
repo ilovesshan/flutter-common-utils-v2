@@ -554,7 +554,7 @@
 
 + 关于.jks文件的生成方式以及配置
 
-  + 生成kjs文件
+  + 生成.jks文件
 
     ```
     keytool -genkey -v -keystore /D:/keys/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key
@@ -581,7 +581,7 @@
   
     
   
-  + build.grade（模块级别 ） 配置kjs
+  + build.grade（模块级别 ） 配置jks
   
     ```groovy
     // 读取 key.properties
