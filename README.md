@@ -443,11 +443,14 @@
   <!-- 网络访问权限 -->
   <uses-permission android:name="android.permission.INTERNET" />
   
-  <!-- 存储权限 -->
-  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-  <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+  <!--用于获取运营商信息，用于支持提供运营商信息相关的接口-->
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   
+  <!--用于读取手机当前的状态-->
+  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+  
+  <!-- 存储权限 -->
+  <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
   <!-- 允许应用程序访问设备的相机，用于拍照和录制视频 -->
   <uses-permission android:name="android.permission.CAMERA" />
   <!-- 允许应用程序读取设备上的照片、视频和其他媒体文件 -->
@@ -472,6 +475,9 @@
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 精准定位权限 -->
   <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- 后台定位权限 api29，android10新增 -->
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 允许应用程序在前台运行服务，并显示相关通知 -->
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+  <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!--用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+  <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> <!--用于申请调用A-GPS模块-->
   
   <!-- 电话权限 -->
   <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -500,7 +506,7 @@
   <!-- 通知权限 -->
   <uses-permission android:name="android.permission.VIBRATE" />  <!-- 允许应用程序控制手机振动 -->
   <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />  <!-- 允许应用程序访问通知策略 -->
-  <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>  <!-- 适配Android13 通知权限-->
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
   
   <!-- 蓝牙权限 -->
   <uses-permission android:name="android.permission.BLUETOOTH" />  <!-- 允许应用程序访问蓝牙设备 -->
@@ -554,7 +560,7 @@
 
 + 关于.jks文件的生成方式以及配置
 
-  + 生成.jks文件
+  + 创建一个用于上传的密钥库，生成.jks文件
 
     ```
     keytool -genkey -v -keystore /D:/keys/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key
@@ -570,25 +576,26 @@
   
     
   
-  + 在项目根目录下新建key.properties文件
+  + 创建一个名为 `[project]/android/key.properties` 的文件，它包含了密钥库位置的定义，在替换内容时请去除 `< >` 括号
   
     ```properties
-    storePassword=123456
-    keyPassword=123456
+    storePassword=<password-from-previous-step>
+    keyPassword=<password-from-previous-step>
     keyAlias=key
     storeFile=D:/keys/key.jks
     ```
   
     
   
-  + build.grade（模块级别 ） 配置jks
+  + 在  `[project]/android/app/build.gradle` 中配置签名
   
     ```groovy
     // 读取 key.properties
-    def keystorePropertiesFile = rootProject.file("key.properties")
     def keystoreProperties = new Properties()
-    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-    
+    def keystorePropertiesFile = rootProject.file('key.properties')
+    if (keystorePropertiesFile.exists()) {
+        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    }
     
     android {
         ...
@@ -596,14 +603,13 @@
             release {
                 keyAlias keystoreProperties['keyAlias']
                 keyPassword keystoreProperties['keyPassword']
-                storeFile file(keystoreProperties['storeFile'])
+                storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
                 storePassword keystoreProperties['storePassword']
             }
-            debug {
-                keyAlias keystoreProperties['keyAlias']
-                keyPassword keystoreProperties['keyPassword']
-                storeFile file(keystoreProperties['storeFile'])
-                storePassword keystoreProperties['storePassword']
+        }
+        buildTypes {
+            release {
+                signingConfig signingConfigs.release
             }
         }
         ...
@@ -611,8 +617,6 @@
     ```
   
     
-  
-  
   
 + 项目集成了 flutter闪屏页插件，下面列举简单用法，具体用法请参考：[flutter_native_splash]( https://pub.dev/packages/flutter_native_splash)
 
