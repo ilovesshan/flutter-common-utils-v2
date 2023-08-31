@@ -30,35 +30,35 @@ class HttpHelperUtil {
     return dio;
   }
 
-  Future<BaseModel> get(String url, {queryParameters, CancelToken? cancelToken, bool needToken = false}) {
-    return _baseRequest("get", url, queryParameters: queryParameters, needToken: needToken);
+  Future<BaseModel> get(String url, {queryParameters, CancelToken? cancelToken, bool needToken = false, needLoading = false}) {
+    return _baseRequest("get", url, queryParameters: queryParameters, needToken: needToken, needLoading: needLoading);
   }
 
-  Future<BaseModel> post(String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false}) {
-    return _baseRequest("post", url, queryParameters: queryParameters, data: data, needToken: needToken);
+  Future<BaseModel> post(String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false, needLoading = false}) {
+    return _baseRequest("post", url, queryParameters: queryParameters, data: data, needToken: needToken, needLoading: needLoading);
   }
 
-  Future<BaseModel> put(String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false}) {
-    return _baseRequest("put", url, queryParameters: queryParameters, data: data, needToken: needToken);
+  Future<BaseModel> put(String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false, needLoading = false}) {
+    return _baseRequest("put", url, queryParameters: queryParameters, data: data, needToken: needToken, needLoading: needLoading);
   }
 
-  Future<BaseModel> delete(String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false}) {
-    return _baseRequest("delete", url, queryParameters: queryParameters, data: data, needToken: needToken);
+  Future<BaseModel> delete(String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false, needLoading = false}) {
+    return _baseRequest("delete", url, queryParameters: queryParameters, data: data, needToken: needToken, needLoading: needLoading);
   }
 
-  Future<BaseModel> _baseRequest(String method, String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false}) async {
-    Map<String, dynamic> extra = { "needToken": needToken};
+  Future<BaseModel> _baseRequest(String method, String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false, bool needLoading = false}) async {
+    Map<String, dynamic> extra = {"needToken": needToken, "needLoading": needLoading};
     Response<dynamic> response = await _dio.request(url, data: data, cancelToken: cancelToken, queryParameters: queryParameters, options: Options(method: method, extra: extra));
     BaseModel baseModel;
     if (response.statusCode! >= 200 && response.statusCode! < 300) {
       if (response.requestOptions.path.contains(LocationUtil.gaoDeMapBaseUrl)) {
         /// 处理调用第三方API的响应(高德地图)
-        if(response.data != null){
+        if (response.data != null) {
           baseModel = BaseModel(code: 200, message: "请求成功", data: response.data);
-        }else{
+        } else {
           baseModel = BaseModel(code: -1, message: "HttpError");
         }
-      }else{
+      } else {
         /// 处理本项目API的响应
         try {
           baseModel = BaseModel.fromJson(response.data!);
@@ -77,17 +77,33 @@ class HttpHelperUtil {
 class DioInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    if(options.extra["extra"] ?? false){
-      // 添加token
+    /// 开启Loading效果
+    if (options.extra["needLoading"] ?? false) {
+      LoadingUtil.showLoading();
+    }
+
+    if (options.extra["needToken"] ?? false) {
+      /// 添加token
       String token = SpUtil.getValue("token");
       Map<String, String> headers = {"Authorization": "Bearer " + token};
       options.headers.addAll(headers);
     }
+
+    /// 打印请求日志
+    Log.d("请求日志：${options.baseUrl}${options.path} | queryParameters: ${options.queryParameters.toString()} | data: ${options.data.toString()} | headers: ${options.headers.toString()}");
     handler.next(options);
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
+    /// 关闭Loading
+    if (response.requestOptions.extra["needLoading"] ?? false) {
+      LoadingUtil.hideAllLoading();
+    }
+
+    /// 打印响应日志
+    Log.d("响应日志：${response.requestOptions.baseUrl}${response.requestOptions.path} | data: ${response.data.toString()}");
+
     /// 处理调用第三方API的异常情况(高德地图)
     if (response.requestOptions.path.contains(LocationUtil.gaoDeMapBaseUrl)) {
       handler.next(response);
