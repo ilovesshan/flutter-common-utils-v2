@@ -21,8 +21,8 @@ class HttpHelperUtil {
   Dio initDio() {
     BaseOptions baseOptions = BaseOptions(
       baseUrl: _baseurl,
-      sendTimeout: 5000,
-      receiveTimeout: 5000,
+      sendTimeout: 30000,
+      receiveTimeout: 30000,
     );
     Dio dio = Dio(baseOptions);
     // 添加拦截器
