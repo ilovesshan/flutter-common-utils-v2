@@ -84,7 +84,7 @@ class DioInterceptor extends Interceptor {
 
     if (options.extra["needToken"] ?? false) {
       /// 添加token
-      String token = SpUtil.getValue("token");
+      String token = SpUtil.getString("token");
       Map<String, String> headers = {"Authorization": "Bearer " + token};
       options.headers.addAll(headers);
     }
