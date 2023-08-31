@@ -10,6 +10,9 @@ class RegExpConstants {
   /// 邮箱 正则
   static RegExp emailExp = RegExp(r"^\w+([-+.]\w+)*@\w+([-.]\w+)*.\w+([-.]\w+)*$");
 
+  /// QQ邮箱 正则
+  static RegExp qqEmailExp = RegExp(r'^[1-9]\d{4,10}@qq\.com$');
+
   /// URL正则
   static RegExp urlExp = RegExp(r"^((https|http|ftp|rtsp|mms)?://)[^\s]+");
 
@@ -55,6 +58,11 @@ class RegExpUtil {
   /// 邮箱
   static bool matchEmail(String email) {
     return RegExpConstants.emailExp.hasMatch(email);
+  }
+
+  /// QQ邮箱
+  static bool matchQQEmail(String email) {
+    return RegExpConstants.qqEmailExp.hasMatch(email);
   }
 
   /// URL正则
