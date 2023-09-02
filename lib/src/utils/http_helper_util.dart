@@ -90,7 +90,7 @@ class DioInterceptor extends Interceptor {
     }
 
     /// 打印请求日志
-    Log.d("请求日志：${options.baseUrl}${options.path} | queryParameters: ${options.queryParameters.toString()} | data: ${options.data.toString()} | headers: ${options.headers.toString()}");
+    Log.v("请求日志：${options.baseUrl}${options.path} | ${options.method} | queryParameters: ${options.queryParameters.toString()} | data: ${options.data.toString()} | headers: ${options.headers.toString()}");
     handler.next(options);
   }
 
@@ -102,7 +102,7 @@ class DioInterceptor extends Interceptor {
     }
 
     /// 打印响应日志
-    Log.d("响应日志：${response.requestOptions.baseUrl}${response.requestOptions.path} | data: ${response.data.toString()}");
+    Log.v("响应日志：${response.requestOptions.baseUrl}${response.requestOptions.path} | ${response.requestOptions.method} | data: ${response.data.toString()}");
 
     /// 处理调用第三方API的异常情况(高德地图)
     if (response.requestOptions.path.contains(LocationUtil.gaoDeMapBaseUrl)) {
@@ -120,6 +120,77 @@ class DioInterceptor extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
+    /// 关闭Loading
+    if (err.requestOptions.extra["needLoading"] ?? false) {
+      LoadingUtil.hideAllLoading();
+    }
     Log.e(err.toString(), err.error, err.stackTrace);
+    switch (err.type) {
+      case DioErrorType.cancel:
+        ToastUtil.showToast("取消请求");
+        // return HttpException(code: -1, msg: 'request cancel');
+        break;
+      case DioErrorType.connectTimeout:
+        ToastUtil.showToast("连接超时");
+        // return HttpException(code: -1, msg: 'connect timeout');
+        break;
+      case DioErrorType.sendTimeout:
+        ToastUtil.showToast("发送超时");
+        // return HttpException(code: -1, msg: 'send timeout');
+        break;
+      case DioErrorType.receiveTimeout:
+        ToastUtil.showToast("响应超时");
+        // return HttpException(code: -1, msg: 'receive timeout');
+        break;
+      case DioErrorType.response:
+        try {
+          int statusCode = err.response?.statusCode ?? 0;
+          switch (statusCode) {
+            case 400:
+              // return HttpException(code: statusCode, msg: 'Request syntax error');
+              break;
+            case 401:
+              ToastUtil.showToast("暂无操作权限");
+              // return HttpException(code: statusCode, msg: 'Without permission');
+              break;
+            case 403:
+              // return HttpException(code: statusCode, msg: 'Server rejects execution');
+              break;
+            case 404:
+              ToastUtil.showToast("404");
+              // return HttpException(code: statusCode, msg: 'Unable to connect to server');
+              break;
+            case 405:
+              // return HttpException(code: statusCode, msg: 'The request method is disabled');
+              break;
+            case 500:
+              ToastUtil.showToast("请求失败,请稍后再试");
+              // return HttpException(code: statusCode, msg: 'Server internal error');
+              break;
+            case 502:
+              ToastUtil.showToast("请求失败,请稍后再试");
+              // return HttpException(code: statusCode, msg: 'Invalid request');
+              break;
+            case 503:
+              ToastUtil.showToast("请求失败,请稍后再试");
+              // return HttpException(code: statusCode, msg: 'The server is down.');
+              break;
+            case 505:
+              ToastUtil.showToast("请求失败,请稍后再试");
+              // return HttpException(code: statusCode, msg: 'HTTP requests are not supported');
+              break;
+            default:
+          }
+        } on Exception catch (_) {
+          ToastUtil.showToast("请求失败,请稍后再试");
+          // return HttpException(code: -1, msg: 'unknow error');
+          break;
+        }
+        break;
+      default:
+        ToastUtil.showToast("请求失败,请稍后再试");
+        // return HttpException(code: -1, msg: error.message);
+        break;
+    }
   }
 }
