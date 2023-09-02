@@ -118,4 +118,5 @@ export 'src/utils/storage_size_util.dart';
 export 'src/utils/text_util.dart';
 export 'src/utils/time_util.dart';
 export 'src/utils/toast_util.dart';
+export 'src/utils/url_encode_util.dart';
 export 'src/utils/x_update_util.dart';
