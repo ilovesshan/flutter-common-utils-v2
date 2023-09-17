@@ -114,6 +114,12 @@ dependencies:
   workmanager: ^0.4.1
   # HTML解析
   flutter_widget_from_html_core: ^0.8.5+3
+  # 基于 微信 UI 的 Flutter 图片选择器
+  wechat_assets_picker: ^6.2.4
+  # 加载lottie动画
+  lottie: ^1.2.2
+  # 验证码组件
+  pinput: ^1.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

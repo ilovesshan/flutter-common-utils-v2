@@ -63,6 +63,9 @@ export 'package:intl/intl.dart';
 export 'package:workmanager/workmanager.dart';
 export 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart' hide ImageSource;
 export 'package:package_info_plus/package_info_plus.dart';
+export 'package:wechat_assets_picker/wechat_assets_picker.dart';
+export 'package:pinput/pin_put/pin_put.dart';
+export 'package:lottie/lottie.dart';
 
 /// 通用 widget
 export 'src/widgets/base_dialog_widget.dart';
