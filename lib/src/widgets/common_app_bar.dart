@@ -4,11 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:common_utils_v2/common_utils_v2.dart';
 
 class CommonAppBar {
-  static AppBar show(String text,
-      {Widget? leading, List<Widget>? actions, PreferredSizeWidget? bottom, double? elevation, Color? color, Color? backgroundColor, Color? leadingColor, bool? centerTitle, Brightness? statusBarIconBrightness}) {
+  static AppBar show(
+    String text, {
+    Widget? leading,
+    List<Widget>? actions,
+    PreferredSizeWidget? bottom,
+    double? elevation,
+    Color? color,
+    Color? backgroundColor,
+    Color? leadingColor,
+    bool? centerTitle,
+    Brightness? statusBarIconBrightness,
+    double? toolbarHeight,
+  }) {
     return AppBar(
       systemOverlayStyle: SystemUiOverlayStyle(statusBarIconBrightness: statusBarIconBrightness ?? Brightness.light),
       title: Text(text, style: TextStyle(fontSize: 18.sp, color: color ?? const Color(0xFFFFFFFF))),
+      toolbarHeight: toolbarHeight,
       backgroundColor: backgroundColor ?? Get.theme.primaryColor,
       centerTitle: centerTitle ?? true,
       elevation: elevation ?? 0,

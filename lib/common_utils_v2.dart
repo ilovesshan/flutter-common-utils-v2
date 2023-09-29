@@ -110,6 +110,7 @@ export 'src/utils/log_plus_util.dart';
 export 'src/utils/log_util.dart';
 export 'src/utils/map_navigation_util.dart';
 export 'src/utils/notification_util.dart';
+export 'src/utils/package_info_util.dart';
 export 'src/utils/permission_util.dart';
 export 'src/utils/qr_scanner_util.dart';
 export 'src/utils/random_name_util.dart';
