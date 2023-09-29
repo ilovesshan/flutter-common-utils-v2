@@ -61,7 +61,7 @@ class TextUtil {
   }
 
   /// 复制字符串
-  void setClipData(String text) {
+  void copy(String text) {
     Clipboard.setData(ClipboardData(text: text));
   }
 }
