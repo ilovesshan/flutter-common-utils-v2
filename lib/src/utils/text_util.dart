@@ -1,4 +1,5 @@
 import 'package:common_utils_v2/common_utils_v2.dart';
+import 'package:flutter/services.dart';
 
 class TextUtil {
   /// 判断数据是否是空的
@@ -57,5 +58,10 @@ class TextUtil {
       sb.writeCharCode(text.codeUnitAt(i));
     }
     return sb.toString();
+  }
+
+  /// 复制字符串
+  void setClipData(String text) {
+    Clipboard.setData(ClipboardData(text: text));
   }
 }
