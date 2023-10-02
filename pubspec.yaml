@@ -120,6 +120,18 @@ dependencies:
   lottie: ^1.2.2
   # 验证码组件
   pinput: ^1.1.0
+  # 访问日历
+  device_calendar: ^4.0.0
+  timezone: ^0.7.0
+  # 百分比 进度条指示器
+  percent_indicator: ^3.4.0
+  # 读取SVG资源文件
+  flutter_svg: ^1.0.3
+  # 资源分享
+  share_plus: ^4.5.3
+  # 时间日期选择器
+  flutter_datetime_picker_plus: ^2.0.0+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

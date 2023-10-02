@@ -66,6 +66,12 @@ export 'package:package_info_plus/package_info_plus.dart';
 export 'package:wechat_assets_picker/wechat_assets_picker.dart';
 export 'package:pinput/pin_put/pin_put.dart';
 export 'package:lottie/lottie.dart';
+export 'package:device_calendar/device_calendar.dart';
+export 'package:timezone/timezone.dart';
+export 'package:percent_indicator/percent_indicator.dart';
+export 'package:flutter_svg/flutter_svg.dart';
+export 'package:share_plus/share_plus.dart';
+export 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 
 /// 通用 widget
 export 'src/widgets/base_dialog_widget.dart';
@@ -93,6 +99,7 @@ export 'src/model/base_model.dart';
 
 /// 工具包
 export 'src/utils/app_util.dart';
+export 'src/utils/calender_util.dart';
 export 'src/utils/color_util.dart';
 export 'src/utils/connectivity_util.dart';
 export 'src/utils/device_info_util.dart';

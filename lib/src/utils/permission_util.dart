@@ -80,7 +80,7 @@ class PermissionUtil {
       bool isGranted = await (permissions[i]).isGranted;
 
       if (isGranted) {
-        Log.d(StackTrace.current, "${permissions[i]}权限已授权");
+        Log.v(StackTrace.current, "${permissions[i]}权限已授权");
       } else if (isDenied || isPermanentlyDenied) {
         isGranted = false;
         ToastUtil.showToast("为保证功能正常使用，请在设置中为app开启${permissions[i]}权限");
@@ -107,6 +107,11 @@ class PermissionUtil {
   /// 语音
   static Future<bool> requestSpeechPermission() async {
     return await requestPermission(permissions: [Permission.speech], permissionsDescribes: ["语音"]);
+  }
+
+  /// 日历
+  static Future<bool> requestCalendarPermission() async {
+    return await requestPermission(permissions: [Permission.calendar], permissionsDescribes: ["日历"]);
   }
 
   /// 存储/文件权限
