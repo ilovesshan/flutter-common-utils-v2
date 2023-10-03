@@ -12,16 +12,15 @@ class TimeUtil {
     return DateTime.parse(timeStr.toString()).millisecondsSinceEpoch;
   }
 
-  /// 根据时间戳 计算截至现在的天数
+  /// 根据时间戳 计算截至现在的天数(不满一天按一天计算)
   /// timeStr 格式 yyyy-MM-dd hh:mm:ss
-  static String getDayBetweenNow(String timeStr) {
+  static int getDayBetweenNow(String timeStr) {
     if (TextUtil.isEmpty(timeStr)) {
-      return "";
+      return -1;
     }
-    return DateTime.now().difference(DateTime.parse(timeStr)).inDays.toString();
+    var days = DateTime.now().difference(DateTime.parse(timeStr)).inDays;
+    return days == 0 ? ++days : days;
   }
-
-
 
   /// 时间戳格式化  默认格式化格式 yyyy-MM-dd hh:mm:ss
   /// timeStamp 毫秒
@@ -29,16 +28,14 @@ class TimeUtil {
     if (TextUtil.isEmpty(timeStamp.toString())) {
       return "";
     }
-    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch( int.parse(timeStamp));
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp));
     return _dateTimeToStr(dateTime);
   }
-
 
   /// 时间戳格式化(当前时间)  默认格式化格式 yyyy-MM-dd hh:mm:ss
   static String timeStampToStrNow() {
     return _dateTimeToStr(DateTime.now());
   }
-
 
   /// DateTime to String
   static String _dateTimeToStr(DateTime dateTime) {
