@@ -4,18 +4,34 @@ class HttpHelperUtil {
   static String _baseurl = "https://github.com/ilovesshan/flutter-common-utils-v2";
   static String _baseWsUrl = "ws://github.com/ilovesshan/flutter-common-utils-v2/ws";
 
+  static String _tokenKey = "Authorization";
+  static String _tokenPrefix = "Bearer ";
+  static String _tokenSpKey = "token";
+
   late final Dio _dio = initDio();
   static final HttpHelperUtil _instance = HttpHelperUtil();
+
+  static HttpHelperUtil get instance => _instance;
 
   static String get baseurl => _baseurl;
 
   static String get baseWsUrl => _baseWsUrl;
 
-  static HttpHelperUtil get instance => _instance;
+  static String get tokenKey => _tokenKey;
+
+  static String get tokenPrefix => _tokenPrefix;
+
+  static String get tokenSpKey => _tokenSpKey;
 
   static updateBaseUrl({String? baseurl, String? baseWsUrl}) {
     _baseurl = baseurl ?? _baseurl;
     _baseWsUrl = baseWsUrl ?? _baseWsUrl;
+  }
+
+  static updateTokenKey({String? tokenKey, String? tokenPrefix, String? tokenSpKey}) {
+    _tokenKey = tokenKey ?? _tokenKey;
+    _tokenPrefix = tokenPrefix ?? _tokenPrefix;
+    _tokenSpKey = tokenSpKey ?? _tokenSpKey;
   }
 
   Dio initDio() {
@@ -84,13 +100,14 @@ class DioInterceptor extends Interceptor {
 
     if (options.extra["needToken"] ?? false) {
       /// 添加token
-      String token = SpUtil.getString("token");
-      Map<String, String> headers = {"Authorization": "Bearer " + token};
+      String token = SpUtil.getString(HttpHelperUtil.tokenSpKey);
+      Map<String, String> headers = {HttpHelperUtil.tokenKey: HttpHelperUtil.tokenPrefix + token};
       options.headers.addAll(headers);
     }
 
     /// 打印请求日志
-    Log.v("请求日志：${options.baseUrl}${options.path} | ${options.method} | queryParameters: ${options.queryParameters.toString()} | data: ${options.data.toString()} | headers: ${options.headers.toString()}");
+    Log.v(
+        "请求日志：${options.baseUrl}${options.path} | ${options.method} | queryParameters: ${options.queryParameters.toString()} | data: ${options.data.toString()} | headers: ${options.headers.toString()}");
     handler.next(options);
   }
 
@@ -102,7 +119,7 @@ class DioInterceptor extends Interceptor {
     }
 
     /// 打印响应日志
-    Log.v("响应日志：${response.requestOptions.baseUrl}${response.requestOptions.path} | ${response.requestOptions.method} | data: ${response.data.toString()}");
+    Log.v("响应日志：${response.requestOptions.baseUrl}${response.requestOptions.path} | data: ${response.data.toString()}");
 
     /// 处理调用第三方API的异常情况(高德地图)
     if (response.requestOptions.path.contains(LocationUtil.gaoDeMapBaseUrl)) {
