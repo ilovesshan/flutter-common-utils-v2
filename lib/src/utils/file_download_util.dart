@@ -4,10 +4,11 @@ import 'dart:ui' as ui;
 import 'dart:ui';
 
 import 'package:common_utils_v2/common_utils_v2.dart';
+import 'package:flutter/services.dart';
 
 class FileDownloadUtil {
   /// 下载图片
-  static Future<dynamic> downloadImage(String remoteResourceUri, {String fileName = "", String ext = "png", bool isAsset = false, bool showLoading = true}) async {
+  static Future<dynamic> downloadImage(String resourcePath, {String fileName = "", String ext = "png", bool showLoading = true}) async {
     final isGranted = await PermissionUtil.requestStoragePermission();
     if (isGranted) {
       if (showLoading) {
@@ -15,9 +16,18 @@ class FileDownloadUtil {
       }
       try {
         Directory directory = await getApplicationDocumentsDirectory();
-        var response = await Dio().get(remoteResourceUri, options: Options(responseType: ResponseType.bytes));
+        Uint8List imageBytes;
+        if (resourcePath.startsWith("https:") || resourcePath.startsWith("http:")) {
+          var response = await Dio().get(resourcePath, options: Options(responseType: ResponseType.bytes));
+          imageBytes = Uint8List.fromList(response.data);
+        } else if (resourcePath.startsWith("assets/")) {
+          ByteData byteData = await rootBundle.load(resourcePath);
+          imageBytes = byteData.buffer.asUint8List();
+        } else {
+          imageBytes = await loadImageFromPath(resourcePath);
+        }
         String saveFileName = TextUtil.isEmpty(fileName) ? "${directory.path}/$fileName" : "${directory.path}/${TimeUtil.currentTimeMillis()}.$ext";
-        final result = await ImageGallerySaver.saveImage(Uint8List.fromList(response.data), quality: 80, name: saveFileName);
+        final result = await ImageGallerySaver.saveImage(imageBytes, quality: 80, name: saveFileName);
         Log.d(result);
         if (showLoading) {
           ToastUtil.showToast("下载成功");
@@ -67,7 +77,7 @@ class FileDownloadUtil {
     }
   }
 
-  /// 通用的文件下载
+  /// 网络文件下载
   static Future<String> downLoadFile(String remoteResourceUri, {bool showLoading = true}) async {
     final isGranted = await PermissionUtil.requestStoragePermission();
     if (isGranted) {
@@ -98,7 +108,7 @@ class FileDownloadUtil {
         } catch (e) {
           if (!isCanceled) {
             Log.e(e);
-            ToastUtil.showToast("下载中失败");
+            ToastUtil.showToast("下载失败");
           }
         } finally {
           if (showLoading) {
@@ -108,5 +118,16 @@ class FileDownloadUtil {
       }
     }
     return "";
+  }
+
+  /// 读取对应文件并返回Uint8List
+  static Future<Uint8List> loadImageFromPath(String filePath) async {
+    File file = File(filePath);
+    if (await file.exists()) {
+      Uint8List bytes = await file.readAsBytes();
+      return bytes;
+    } else {
+      throw Exception("File not found");
+    }
   }
 }
