@@ -3,13 +3,17 @@ import 'package:common_utils_v2/common_utils_v2.dart';
 class TimeUtil {
   /// 获取当前时间戳
   static int currentTimeMillis() {
-    return DateTime.now().millisecondsSinceEpoch;
+    return DateTime
+        .now()
+        .millisecondsSinceEpoch;
   }
 
   /// 获取时间戳
   /// timeStr 格式 yyyy-MM-dd hh:mm:ss
   static int currentTimeMillisWithTime(String timeStr) {
-    return DateTime.parse(timeStr.toString()).millisecondsSinceEpoch;
+    return DateTime
+        .parse(timeStr.toString())
+        .millisecondsSinceEpoch;
   }
 
   /// 根据时间戳 计算截至现在的天数(不满一天按一天计算)
@@ -18,8 +22,11 @@ class TimeUtil {
     if (TextUtil.isEmpty(timeStr)) {
       return -1;
     }
-    var days = DateTime.now().difference(DateTime.parse(timeStr)).inDays;
-    return days == 0 ? ++days : days;
+    var days = DateTime
+        .now()
+        .difference(DateTime.parse(timeStr))
+        .inDays;
+    return ++days;
   }
 
   /// 时间戳格式化  默认格式化格式 yyyy-MM-dd hh:mm:ss
