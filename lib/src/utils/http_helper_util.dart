@@ -46,24 +46,52 @@ class HttpHelperUtil {
     return dio;
   }
 
-  Future<BaseModel> get(String url, {queryParameters, CancelToken? cancelToken, bool needToken = false, needLoading = false}) {
-    return _baseRequest("get", url, queryParameters: queryParameters, needToken: needToken, needLoading: needLoading);
+  /// GET
+  Future<BaseModel> get(String url, {queryParameters, CancelToken? cancelToken, bool needToken = false, needLoading = false, String? loadingText}) {
+    return _baseRequest("get", url, queryParameters: queryParameters, needToken: needToken, needLoading: needLoading, loadingText: loadingText);
   }
 
-  Future<BaseModel> post(String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false, needLoading = false}) {
-    return _baseRequest("post", url, queryParameters: queryParameters, data: data, needToken: needToken, needLoading: needLoading);
+  /// POST
+  Future<BaseModel> post(String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false, needLoading = false, String? loadingText}) {
+    return _baseRequest(
+      "post",
+      url,
+      queryParameters: queryParameters,
+      data: data,
+      needToken: needToken,
+      needLoading: needLoading,
+      loadingText: loadingText,
+    );
   }
 
-  Future<BaseModel> put(String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false, needLoading = false}) {
-    return _baseRequest("put", url, queryParameters: queryParameters, data: data, needToken: needToken, needLoading: needLoading);
+  /// PUT
+  Future<BaseModel> put(String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false, needLoading = false, String? loadingText}) {
+    return _baseRequest(
+      "put",
+      url,
+      queryParameters: queryParameters,
+      data: data,
+      needToken: needToken,
+      needLoading: needLoading,
+      loadingText: loadingText,
+    );
   }
 
-  Future<BaseModel> delete(String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false, needLoading = false}) {
-    return _baseRequest("delete", url, queryParameters: queryParameters, data: data, needToken: needToken, needLoading: needLoading);
+  /// DELETE
+  Future<BaseModel> delete(String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false, needLoading = false, String? loadingText}) {
+    return _baseRequest(
+      "delete",
+      url,
+      queryParameters: queryParameters,
+      data: data,
+      needToken: needToken,
+      needLoading: needLoading,
+      loadingText: loadingText,
+    );
   }
 
-  Future<BaseModel> _baseRequest(String method, String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false, bool needLoading = false}) async {
-    Map<String, dynamic> extra = {"needToken": needToken, "needLoading": needLoading};
+  Future<BaseModel> _baseRequest(String method, String url, {queryParameters, data, CancelToken? cancelToken, bool needToken = false, bool needLoading = false, String? loadingText}) async {
+    Map<String, dynamic> extra = {"needToken": needToken, "needLoading": needLoading, "loadingText": loadingText};
     Response<dynamic> response = await _dio.request(url, data: data, cancelToken: cancelToken, queryParameters: queryParameters, options: Options(method: method, extra: extra));
     BaseModel baseModel;
     if (response.statusCode! >= 200 && response.statusCode! < 300) {
@@ -95,7 +123,7 @@ class DioInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     /// 开启Loading效果
     if (options.extra["needLoading"] ?? false) {
-      LoadingUtil.showLoading();
+      LoadingUtil.showLoading(msg: options.extra["loadingText"] ?? "加载中...");
     }
 
     if (options.extra["needToken"] ?? false) {
@@ -107,7 +135,8 @@ class DioInterceptor extends Interceptor {
 
     /// 打印请求日志
     Log.v(
-        "请求日志：${options.baseUrl}${options.path} | ${options.method} | queryParameters: ${options.queryParameters.toString()} | data: ${options.data.toString()} | headers: ${options.headers.toString()}");
+        "请求日志：${options.baseUrl}${options.path} | ${options.method} | queryParameters: ${options.queryParameters.toString()} | data: ${options.data.toString()} | headers: ${options.headers
+            .toString()}");
     handler.next(options);
   }
 
@@ -164,21 +193,21 @@ class DioInterceptor extends Interceptor {
           int statusCode = err.response?.statusCode ?? 0;
           switch (statusCode) {
             case 400:
-              // return HttpException(code: statusCode, msg: 'Request syntax error');
+            // return HttpException(code: statusCode, msg: 'Request syntax error');
               break;
             case 401:
               ToastUtil.showToast("暂无操作权限");
               // return HttpException(code: statusCode, msg: 'Without permission');
               break;
             case 403:
-              // return HttpException(code: statusCode, msg: 'Server rejects execution');
+            // return HttpException(code: statusCode, msg: 'Server rejects execution');
               break;
             case 404:
               ToastUtil.showToast("404");
               // return HttpException(code: statusCode, msg: 'Unable to connect to server');
               break;
             case 405:
-              // return HttpException(code: statusCode, msg: 'The request method is disabled');
+            // return HttpException(code: statusCode, msg: 'The request method is disabled');
               break;
             case 500:
               ToastUtil.showToast("请求失败,请稍后再试");

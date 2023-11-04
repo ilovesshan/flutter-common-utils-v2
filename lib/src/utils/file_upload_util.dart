@@ -6,32 +6,38 @@ class FileUploadUtil {
   static final HttpHelperUtil _helperUtil = HttpHelperUtil.instance;
 
   /// 单文件上传(APP)
-  static Future<dynamic> uploadSingle({
+  static Future<BaseModel> uploadSingle({
     required String filePath,
     String requestUrl = "/attachment",
     String fileKey = "file",
     needLoading = true,
     bool needToken = true,
+    String loadingText = "图片上传中...",
     CancelToken? cancelToken,
     Map<String, String> extra = const {},
   }) async {
     FormData formData = FormData.fromMap({fileKey: MultipartFile.fromFileSync(filePath), ...extra});
     try {
-      final BaseModel response = await _helperUtil.post(requestUrl, data: formData, needToken: needToken, needLoading: needLoading, cancelToken: cancelToken);
-      return response.data;
+      var response = await _helperUtil.post(requestUrl, data: formData,
+          needToken: needToken,
+          needLoading: needLoading,
+          cancelToken: cancelToken,
+          loadingText: loadingText);
+      return response;
     } catch (e) {
       Log.e("文件上传失败: $e");
-      return [];
+      return BaseModel(code: -200, data: []);
     }
   }
 
   /// 多文件上传(APP)
-  static Future<dynamic> uploadMultiple({
+  static Future<BaseModel> uploadMultiple({
     required List<String> filePathList,
     String requestUrl = "/attachment",
     String fileKey = "file",
     needLoading = true,
     bool needToken = true,
+    String loadingText = "图片上传中...",
     CancelToken? cancelToken,
     Map<String, String> extra = const {},
   }) async {
@@ -39,33 +45,42 @@ class FileUploadUtil {
       fileKey: filePathList.map((path) => MultipartFile.fromFileSync(path)).toList(),
       ...extra,
     });
-
     try {
-      final BaseModel response = await _helperUtil.post(requestUrl, data: formData, needToken: needToken, needLoading: needLoading, cancelToken: cancelToken);
-      return response.data;
+      var response = await _helperUtil.post(requestUrl, data: formData,
+          needToken: needToken,
+          needLoading: needLoading,
+          cancelToken: cancelToken,
+          loadingText: loadingText);
+      return response;
     } catch (e) {
       Log.e("文件上传失败: $e");
-      return [];
+      return BaseModel(code: -200, data: []);
     }
   }
 
   /// 删除文件
-  static Future<dynamic> deleteFile({
+  static Future<BaseModel> deleteFile({
     required String id,
     String requestUrl = "/attachment",
     String fileKey = "id",
     needLoading = true,
+    String loadingText = "图片删除中...",
     bool needToken = true,
     CancelToken? cancelToken,
   }) async {
     try {
-      final BaseModel response = await _helperUtil.delete(requestUrl, queryParameters: {fileKey: id}, needToken: needToken, needLoading: needLoading, cancelToken: cancelToken);
-      return response.data;
+      var response = await _helperUtil.delete(requestUrl, queryParameters: {fileKey: id},
+          needToken: needToken,
+          needLoading: needLoading,
+          cancelToken: cancelToken,
+          loadingText: loadingText);
+      return response;
     } catch (e) {
       Log.e("文件删除失败: $e");
-      return "";
+      return BaseModel(code: -200, data: []);
     }
   }
+
 
 /// 多文件上传(WEB/H5)
 // static Future<dynamic> uploadFilesForWeb({String requestUrl = "/attachment", String fileKey = "file", required List<html.File> files, Map<String, String> extra = const {}}) async {
