@@ -52,15 +52,15 @@
 
 + flutter-common-utils-v2 工具包引用版本说明
 
-  + flutter版本： 2.5.0 
+  + flutter版本： 3.13.9
 
-  + Dart sdk 版本： 2.14.0
+  + Dart sdk 版本： 3.1.5
 
     ```
-    Flutter 2.5.0 • channel stable • https://github.com/flutter/flutter.git
-    Framework • revision 4cc385b4b8 (1 year, 8 months ago) • 2021-09-07 23:01:49 -0700
-    Engine • revision f0826da7ef
-    Tools • Dart 2.14.0
+    Flutter 3.13.9 • channel stable • https://github.com/flutter/flutter.git
+    Framework • revision d211f42860 (9 days ago) • 2023-10-25 13:42:25 -0700
+    Engine • revision 0545f8705d
+    Tools • Dart 3.1.5 • DevTools 2.25.0
     ```
 
     
@@ -93,14 +93,20 @@
   void main() async {
     WidgetsFlutterBinding.ensureInitialized();
   
+    /// Flutter全局异常捕获(可选)
+    FlutterError.onError = (details) {
+      FlutterError.presentError(details);
+      Log.wtf(details);
+    };
+    PlatformDispatcher.instance.onError = (error, stack) {
+      Log.wtf(error);
+      Log.wtf(stack.toString());
+      return true;
+    };
+  
     /// 注入ApplicationService 用来初始化一些前置操作(可选)
     await Get.putAsync(() => ApplicationService().init());
-  
-    /// 添加Flutter全局异常捕获(可选)
-    runZonedGuarded(() => runApp(const RootApplication()), (Object error, StackTrace stack) {
-      /// 没有被我们代码catch到的异常
-      Log.e(error.toString(), error, stack);
-    });
+    runApp(const RootApplication());
   }
   
   class RootApplication extends StatefulWidget {
@@ -120,7 +126,7 @@
         /// 使用 GetMaterialApp替换MaterialApp
         child: GetMaterialApp(
           /// APP主题配色方案
-          theme: AppInitialize.appTheme("2196f3"),
+          theme: AppUtil.appTheme("2196f3"),
   
           debugShowCheckedModeBanner: false,
   
@@ -143,19 +149,19 @@
           locale: I18nService.locale,
           fallbackLocale: I18nService.fallbackLocale,
           translations: I18nService(),
-          localizationsDelegates: AppInitialize.internationalization(),
+          localizationsDelegates: AppUtil.internationalization(),
   
           builder: (context, child) {
             /// android状态栏为透明沉浸式
-            AppInitialize.setSystemUiOverlayStyle();
+            AppUtil.setSystemUiOverlayStyle();
   
             /// 屏幕适配
-            AppInitialize.initScreenUtil(context);
+            AppUtil.initScreenUtil(context);
             child = GestureDetector(
               child: child!,
   
               /// 点击空白区域关闭键盘
-              onTap: () => AppInitialize.closeKeyBord(context),
+              onTap: () => AppUtil.closeKeyBord(context),
             );
   
             /// 使用 botToast 还是 flutterEasyLoading
@@ -672,49 +678,18 @@
 
     ```
     -----BEGIN PUBLIC KEY-----
-    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2/vF49zKHdP0EY1B9Zim
-    5t4X1GsnP1TEYgYMnWXQNLluWV53iInEJBmw/xf++Ohbgp7WhAFcjlRJ6Bxnqj6n
-    CtAsXAjIXnv1UDCabw/pUb2Tm349I990wSGEeIbuSRPD/t1O4qOTgpvCWRDgVVfX
-    PILWBkshMhQA7xs0LeEXtimtCLnjUywlXw+Hthlx2Zi6Ba656HKro9EPZ2BRGGUd
-    mbPLWibeD7MF8ETz5R0w/N+3GyTnizPihsFU4sPOnWwhsR0FWz0i+uVeYrIkpyo6
-    hkXFQMLt4RzA9VVsd+nk5h/SQ/NQ38VrpUlLfcL4K/pzUXCrJ6X5KYOIfEcG16QG
-    sQIDAQAB
+    ......
     -----END PUBLIC KEY-----
     ```
-
+    
     ```
     -----BEGIN PRIVATE KEY-----
-    MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDb+8Xj3Mod0/QR
-    jUH1mKbm3hfUayc/VMRiBgydZdA0uW5ZXneIicQkGbD/F/746FuCntaEAVyOVEno
-    HGeqPqcK0CxcCMhee/VQMJpvD+lRvZObfj0j33TBIYR4hu5JE8P+3U7io5OCm8JZ
-    EOBVV9c8gtYGSyEyFADvGzQt4Re2Ka0IueNTLCVfD4e2GXHZmLoFrrnocquj0Q9n
-    YFEYZR2Zs8taJt4PswXwRPPlHTD837cbJOeLM+KGwVTiw86dbCGxHQVbPSL65V5i
-    siSnKjqGRcVAwu3hHMD1VWx36eTmH9JD81DfxWulSUt9wvgr+nNRcKsnpfkpg4h8
-    RwbXpAaxAgMBAAECggEAOXZP39CJnzcBVyBd7WhdmIrFEMCYtOtQjQZlfyvcMhmJ
-    4KBTev/5kzB+0nOTL7OKS9lv0XWFlswfrhjVX1wUSDfOjo/gvwWEM9kuTfqLCMYL
-    a5+TGu7A0b4Om2krjz0xgj6O35a47nH/V0KYRtK2L2FBxM0VM76T6+FgROe6SOOn
-    8BOvAiljHu+hzxOAx8T881daO2TpLXGcwSHcT8UfhIIiE7KBjqUmgDQwkBNcZvhd
-    uhNsSMBjNpf0sws6N2bJ3fK/Yo+23obW03yKqdWOXZ1/QD8PfdRn1gkNn1HwNKTU
-    JuC2K7gUNfHugYDywz2wL2YMiGwzBKOdVULMMPhzkQKBgQD3e2bOIcW5+OOeabIq
-    gGBzoOLaElUwJtFKZBNPG84t+mfYAzwHYkf416WXsR6ql0mLsmZaKBGYk+H5/Kco
-    1xxPfHlENHHZVfof1K1pQLxLoF9vW7rtMVT+CwdgbppBXoVDcqkri8h9aVPTPL/D
-    q6a9qFfcTO+wlfnCgaxXqlDAtQKBgQDjjhPx8sf55G7dZjl9wzfgGjsBRxOeecWr
-    dcfRy4S/WxTC0NwTNaPMyb534RbwHh/MDg9naoLg0kUZQ+AfzleUC5D/PI0G8fO7
-    qADXenb2ZwflBkyw5JmSsk2iJ8tREFgLfqAKrGDTSVc33q6mfm+fZHvZsGVUgxvr
-    riB1EZc3jQKBgFlUib9OIXkHheHgdRcyT55tLHVauLUwzcr0ZKPhfYLLKECoqjpg
-    F2qTLIqcvF0HTtzGAHv6ip9wgdkigZQUUXu/imY8J/wzNJ3Yvt+HJnCF6uzfR5Hm
-    hK9Oe9MrGTMPUzsNYFL/mdbq9f8BppaSlxVOdqhmfP5YpFa5R+Q87fkhAoGBAKnT
-    rGEC72o5qOAFXdzVKEtRaD4A3MyGVxcq1NFnUZA6mpj2pXiUrMW2vzbav3K/GL4C
-    tE5bOIgvhbBgbtFt/wCXTUSf3SSUyHGB5fbrCAPHSyYK+IuAYHkSJ0xg5KWATCVw
-    AGNW2QB3GOeygqfxbr8HkEMcGdPj8Z+IGeMlGLU1AoGBANpu3Sx5J6ELxpL3110I
-    6GfhmADZ/k8rTlkST+sfUJI1R3TcKqLBbyiNd1id1O1rKrnPfym41lNWz6MWRn6m
-    1GPrdTNZIfMJugEfJyaF2vojWyFXMEA/pvjfHeEjQLsoEoupKXLH/Tkm6zaNunJH
-    cX2rgz3C2PGugq1h2EZGBU5z
+    ......
     -----END PRIVATE KEY-----
     ```
 
     
-
+    
     ```dart
     /// 加密
     String encodeRsa = EncryptUtil.encodeRsa(content: "123", publicKeyStr: "publicKey");
@@ -722,19 +697,19 @@
     /// 解密
     String decodeRsa = EncryptUtil.decodeRsa(content: encodeRsa, privateKeyStr: "privateKey");
     ```
-
     
-
+    
+    
   + 通过 rootBundle.loadString('path') 取读取公钥或者私钥配文件方式进行加解密，需要注意：公钥或者私钥配文件要在pub.yaml中进行声明。
-
+  
     ```yaml
     flutter:
       assets:
         - assets/key/
     ```
-
+  
     
-
+  
     ```
     /// RAS加密(通过读取public.pem私钥文件)
     String encodeRsaLoadByFile = await EncryptUtil.encodeRsaLoadByFile(content: "123", publicKeyFilePath: "assets/key/public.pem");
@@ -767,7 +742,7 @@
       //...
       defaultConfig {
           //...
-          minSdkVersion 19
+          minSdkVersion 21
           targetSdkVersion 31
       }
   }

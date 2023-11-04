@@ -52,14 +52,14 @@ class AppUtil {
   }
 
   /// 国际化
-  static Iterable<LocalizationsDelegate<dynamic>> internationalization() {
-    Iterable<LocalizationsDelegate<dynamic>> iterable = [
-      GlobalCupertinoLocalizations.delegate,
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-    ];
-    return iterable;
-  }
+  // static Iterable<LocalizationsDelegate<dynamic>> internationalization() {
+  //   Iterable<LocalizationsDelegate<dynamic>> iterable = [
+  //     GlobalCupertinoLocalizations.delegate,
+  //     GlobalMaterialLocalizations.delegate,
+  //     GlobalWidgetsLocalizations.delegate,
+  //   ];
+  //   return iterable;
+  // }
 
   /// APP 主题定制
   static ThemeData appTheme(String hexColor, {Color? color, Brightness? brightness}) {

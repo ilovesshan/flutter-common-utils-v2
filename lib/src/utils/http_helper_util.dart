@@ -37,8 +37,8 @@ class HttpHelperUtil {
   Dio initDio() {
     BaseOptions baseOptions = BaseOptions(
       baseUrl: _baseurl,
-      sendTimeout: 30000,
-      receiveTimeout: 30000,
+      sendTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
     );
     Dio dio = Dio(baseOptions);
     // 添加拦截器
@@ -135,8 +135,7 @@ class DioInterceptor extends Interceptor {
 
     /// 打印请求日志
     Log.v(
-        "请求日志：${options.baseUrl}${options.path} | ${options.method} | queryParameters: ${options.queryParameters.toString()} | data: ${options.data.toString()} | headers: ${options.headers
-            .toString()}");
+        "请求日志：${options.baseUrl}${options.path} | ${options.method} | queryParameters: ${options.queryParameters.toString()} | data: ${options.data.toString()} | headers: ${options.headers.toString()}");
     handler.next(options);
   }
 
@@ -165,49 +164,49 @@ class DioInterceptor extends Interceptor {
   }
 
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
+  void onError(DioException err, ErrorInterceptorHandler handler) {
     /// 关闭Loading
     if (err.requestOptions.extra["needLoading"] ?? false) {
       LoadingUtil.hideAllLoading();
     }
     Log.e(err.toString(), err.error, err.stackTrace);
     switch (err.type) {
-      case DioErrorType.cancel:
+      case DioExceptionType.cancel:
         ToastUtil.showToast("取消请求");
         // return HttpException(code: -1, msg: 'request cancel');
         break;
-      case DioErrorType.connectTimeout:
+      case DioExceptionType.connectionTimeout:
         ToastUtil.showToast("连接超时");
         // return HttpException(code: -1, msg: 'connect timeout');
         break;
-      case DioErrorType.sendTimeout:
+      case DioExceptionType.sendTimeout:
         ToastUtil.showToast("发送超时");
         // return HttpException(code: -1, msg: 'send timeout');
         break;
-      case DioErrorType.receiveTimeout:
+      case DioExceptionType.receiveTimeout:
         ToastUtil.showToast("响应超时");
         // return HttpException(code: -1, msg: 'receive timeout');
         break;
-      case DioErrorType.response:
+      case DioExceptionType.badResponse:
         try {
           int statusCode = err.response?.statusCode ?? 0;
           switch (statusCode) {
             case 400:
-            // return HttpException(code: statusCode, msg: 'Request syntax error');
+              // return HttpException(code: statusCode, msg: 'Request syntax error');
               break;
             case 401:
               ToastUtil.showToast("暂无操作权限");
               // return HttpException(code: statusCode, msg: 'Without permission');
               break;
             case 403:
-            // return HttpException(code: statusCode, msg: 'Server rejects execution');
+              // return HttpException(code: statusCode, msg: 'Server rejects execution');
               break;
             case 404:
               ToastUtil.showToast("404");
               // return HttpException(code: statusCode, msg: 'Unable to connect to server');
               break;
             case 405:
-            // return HttpException(code: statusCode, msg: 'The request method is disabled');
+              // return HttpException(code: statusCode, msg: 'The request method is disabled');
               break;
             case 500:
               ToastUtil.showToast("请求失败,请稍后再试");

@@ -67,8 +67,10 @@ class ImagePickerUtil {
       ToastUtil.showToast("请开启图片访问权限");
       return files;
     }
-    final List<AssetEntity>? assetEntity = await AssetPicker.pickAssets(Get.context!, maxAssets: maxAssets, requestType: requestType);
-
+    final List<AssetEntity>? assetEntity = await AssetPicker.pickAssets(
+      Get.context!,
+      pickerConfig: AssetPickerConfig(maxAssets: maxAssets, requestType: requestType),
+    );
     if (assetEntity != null && assetEntity.isNotEmpty) {
       for (var asset in assetEntity) {
         var path = (await asset.file)!.path;
@@ -79,18 +81,18 @@ class ImagePickerUtil {
   }
 
   /// 图片选择(WEB/H5)
-  // static pickImageForWeb({required Function(List<html.File> files) onResult, String accept = "image/*", bool multiple = false}) {
-  //   html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-  //   uploadInput.accept = accept;
-  //   uploadInput.multiple = multiple;
-  //   uploadInput.draggable = true;
-  //   uploadInput.click();
-  //   uploadInput.onChange.listen((event) {
-  //     if (uploadInput.files != null && uploadInput.files!.isNotEmpty) {
-  //       onResult(uploadInput.files!);
-  //     } else {
-  //       onResult([]);
-  //     }
-  //   });
-  // }
+// static pickImageForWeb({required Function(List<html.File> files) onResult, String accept = "image/*", bool multiple = false}) {
+//   html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+//   uploadInput.accept = accept;
+//   uploadInput.multiple = multiple;
+//   uploadInput.draggable = true;
+//   uploadInput.click();
+//   uploadInput.onChange.listen((event) {
+//     if (uploadInput.files != null && uploadInput.files!.isNotEmpty) {
+//       onResult(uploadInput.files!);
+//     } else {
+//       onResult([]);
+//     }
+//   });
+// }
 }

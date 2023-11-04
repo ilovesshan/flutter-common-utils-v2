@@ -5,16 +5,21 @@ class NotificationUtil {
 
   static FlutterLocalNotificationsPlugin get fnp => _fnp;
 
+
   /// 初始化通知插件
-  static Future<void> initNotification({SelectNotificationCallback? notificationCallback}) async {
-    const android = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const ios = IOSInitializationSettings(
-      requestSoundPermission: false,
-      requestBadgePermission: false,
-      requestAlertPermission: false,
+  static Future<void> initNotification({DidReceiveLocalNotificationCallback? onDidReceiveLocalNotification, DidReceiveNotificationResponseCallback? onDidReceiveNotificationResponse}) async {
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
+    final DarwinInitializationSettings initializationSettingsDarwin = DarwinInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    const LinuxInitializationSettings initializationSettingsLinux = LinuxInitializationSettings(defaultActionName: 'Open notification');
+
+    final InitializationSettings initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsDarwin,
+      macOS: initializationSettingsDarwin,
+      linux: initializationSettingsLinux,
     );
-    const macOS = MacOSInitializationSettings();
-    await fnp.initialize(const InitializationSettings(android: android, iOS: ios, macOS: macOS), onSelectNotification: notificationCallback);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings, onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
   }
 
   /// 发送本地通知(普通文本展示)
@@ -27,6 +32,7 @@ class NotificationUtil {
     String? channelDescription,
     String? tag,
     String? payload,
+    String? ticker,
   }) {
     /// android相关配置
     final AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
@@ -36,21 +42,23 @@ class NotificationUtil {
       /// 渠道的名称
       channelName ?? "channelName",
 
-      /// 渠道的秒速
-      channelDescription ?? "channelDescription",
+      /// 渠道的描述
+      channelDescription: channelDescription,
 
       /// 通知的级别
       importance: Importance.max,
 
       /// 通知标记
       tag: tag,
+
+      ticker: ticker,
     );
 
     /// ios相关配置
-    final IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+    DarwinNotificationDetails iOSPlatformChannelSpecifics = DarwinNotificationDetails(threadIdentifier: channelId);
 
     /// 推送通知
-    final NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails);
+    final NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails, iOS: iOSPlatformChannelSpecifics);
     fnp.show(notificationId ?? DateTime.now().millisecondsSinceEpoch >> 10, title, body, notificationDetails, payload: payload);
   }
 
@@ -67,6 +75,7 @@ class NotificationUtil {
     String? channelDescription,
     String? tag,
     String? payload,
+    String? ticker,
   }) {
     /// android相关配置
     final AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(
@@ -77,7 +86,7 @@ class NotificationUtil {
       channelName ?? "channelName",
 
       /// 渠道的秒速
-      channelDescription ?? "channelDescription",
+      channelDescription: channelDescription,
 
       /// 通知的级别
       importance: Importance.unspecified,
@@ -85,6 +94,8 @@ class NotificationUtil {
 
       /// 通知标记
       tag: tag,
+
+      ticker: ticker,
 
       /// 显示进度条
       showProgress: true,
@@ -109,10 +120,10 @@ class NotificationUtil {
     );
 
     /// ios相关配置
-    final IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+    DarwinNotificationDetails iOSPlatformChannelSpecifics = DarwinNotificationDetails(threadIdentifier: channelId);
 
     /// 推送通知
-    final NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails);
+    final NotificationDetails notificationDetails = NotificationDetails(android: androidNotificationDetails, iOS: iOSPlatformChannelSpecifics);
     fnp.show(notificationId ?? DateTime.now().millisecondsSinceEpoch >> 10, title, body, notificationDetails, payload: payload);
   }
 
