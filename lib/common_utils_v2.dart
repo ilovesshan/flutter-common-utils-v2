@@ -82,6 +82,9 @@ export 'src/widgets/refresh_widget.dart';
 export 'src/widgets/swiper_widget.dart';
 export 'src/widgets/marquee_widget.dart';
 export 'src/widgets/common_app_bar.dart';
+export 'src/widgets/common_image_widget.dart';
+export 'src/widgets/custom_sliver_persistent_header_delegate.dart';
+export 'src/widgets/custom_text_field_formatter.dart';
 
 /// 公共页面
 export 'src/pages/image_preview_page.dart';

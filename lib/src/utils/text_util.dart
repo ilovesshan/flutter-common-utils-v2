@@ -64,4 +64,21 @@ class TextUtil {
   static void copy(String text) {
     Clipboard.setData(ClipboardData(text: text));
   }
+
+  /// 格式化价格(末尾补零处理)
+  static String formatterPrice(String text) {
+    if (isEmpty(text)) return "0.00";
+    if (text.contains(".")) {
+      List<String> parts = text.split('.');
+      if (parts.last.isEmpty) {
+        return "${text}00";
+      } else if (parts.last.length == 1) {
+        return "${text}0";
+      } else {
+        return text;
+      }
+    } else {
+      return "$text.00";
+    }
+  }
 }
