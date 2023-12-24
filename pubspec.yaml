@@ -131,6 +131,8 @@ dependencies:
   share_plus: ^4.5.3
   # 时间日期选择器
   flutter_datetime_picker_plus: ^2.0.0+1
+  # csv文件解析和导出
+  csv: ^5.1.1
 
 dev_dependencies:
   flutter_test:

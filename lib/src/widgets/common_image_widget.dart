@@ -16,18 +16,14 @@ class CommonImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget child = const SizedBox();
     if (path.startsWith("https:") || path.startsWith("http:")) {
-      child = CachedNetworkImage(imageUrl: path, fit: boxFit);
+      child = CachedNetworkImage(imageUrl: path, width: width, height: height, fit: boxFit);
     } else if (path.startsWith("assets/")) {
-      child = Image.asset(path, fit: boxFit);
+      child = Image.asset(path, width: width, height: height, fit: boxFit);
     } else if (path.startsWith("/data") || path.startsWith("/mnt")) {
-      child = Image.file(File(path), fit: boxFit);
+      child = Image.file(File(path), width: width, height: height, fit: boxFit);
     } else if (path.startsWith("/preview")) {
-      child = CachedNetworkImage(imageUrl: HttpHelperUtil.baseurl + path, fit: boxFit);
+      child = CachedNetworkImage(imageUrl: HttpHelperUtil.baseurl + path, width: width, height: height, fit: boxFit);
     }
-    return SizedBox(
-      width: width,
-      height: height,
-      child: ClipRRect(borderRadius: borderRadius, child: child),
-    );
+    return ClipRRect(borderRadius: borderRadius, child: child);
   }
 }
