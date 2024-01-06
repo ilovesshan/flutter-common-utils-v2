@@ -23,6 +23,8 @@ class CommonImageWidget extends StatelessWidget {
       child = Image.file(File(path), width: width, height: height, fit: boxFit);
     } else if (path.startsWith("/preview")) {
       child = CachedNetworkImage(imageUrl: HttpHelperUtil.baseurl + path, width: width, height: height, fit: boxFit);
+    }else{
+      child = Image.asset("assets/images/logo.png", width: width, height: height, fit: boxFit);
     }
     return ClipRRect(borderRadius: borderRadius, child: child);
   }
